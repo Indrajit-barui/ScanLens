@@ -12,7 +12,10 @@ import Navbar from "../components/Landing/Navber";
 import FeaturesSection from "../components/Landing/FeaturesSection";
 import HowItWorksSection from "../components/Landing/HowItWorksSection";
 import PricingSection from "../components/Landing/PricingSection";
+import DemoModel from "../components/Landing/DemoModel";
+import { useState } from "react";
 const Home = () => {
+  const[isDemoOpen,setIsDemoOpen]=useState(false);
   return (
     <div className="min-h-screen overflow-hidden bg-gradient-to-br from-white via-red-50/30 to-pink-50 px-2">
 
@@ -51,11 +54,16 @@ const Home = () => {
               Try Now
             </button>
 
-            <button className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-8 py-4 text-lg font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50">
+            <button 
+            onClick={()=>setIsDemoOpen(true)}
+            className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-8 py-4 text-lg font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50">
               <PlayCircle size={22} />
               Watch Demo
             </button>
-
+<DemoModel
+  isOpen={isDemoOpen}
+  onClose={() => setIsDemoOpen(false)}
+/>
           </div>
 
           {/* Stats */}
