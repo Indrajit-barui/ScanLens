@@ -7,6 +7,7 @@ import {
   Banknote,
   Search,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import LearnSection from "../components/Landing/LearnSection";
 import Navbar from "../components/Landing/Navber";
 import FeaturesSection from "../components/Landing/FeaturesSection";
@@ -14,6 +15,7 @@ import HowItWorksSection from "../components/Landing/HowItWorksSection";
 import PricingSection from "../components/Landing/PricingSection";
 import DemoModel from "../components/Landing/DemoModel";
 import { useState } from "react";
+
 const Home = () => {
   const[isDemoOpen,setIsDemoOpen]=useState(false);
   return (
@@ -51,7 +53,8 @@ const Home = () => {
           <div className="mt-9 flex flex-wrap gap-5">
 
             <button className="rounded-xl bg-red-500 px-9 py-4 text-lg font-semibold text-white shadow-lg shadow-red-200 transition hover:bg-red-600">
-              Try Now
+              <Link to="/signup"> Try Now</Link>
+             
             </button>
 
             <button 

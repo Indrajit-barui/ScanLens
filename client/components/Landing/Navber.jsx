@@ -1,5 +1,5 @@
 import { Shield } from "lucide-react";
-
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <div className="fixed top-0 left-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-100 ">
@@ -64,11 +64,13 @@ const Navbar = () => {
       {/* Actions */}
       <div className="flex items-center gap-4">
         <button className="rounded-xl border border-slate-200 bg-white px-7 py-3 font-semibold text-red-500 shadow-sm transition hover:bg-red-50">
-          Login
+          <Link to="/login" >  Login</Link>
+        
         </button>
 
         <button className="rounded-xl bg-red-500 px-7 py-3 font-semibold text-white shadow-md transition hover:bg-red-600">
-          Get Started
+          <Link to="/signup" >Get Started</Link>
+          
         </button>
       </div>
     </nav>
