@@ -2,7 +2,9 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Forgot from "../pages/Forgot";
+import DashboardLayout from "../components/Layout/DashboardLayout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Dashboard from "../pages/Dashboard";
 
 const App = () => {
   return (
@@ -12,6 +14,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<Forgot />} />
+<Route element={<DashboardLayout />}>
+  <Route path="/dashboard" element={<Dashboard />} />
+</Route>
       </Routes>
     </BrowserRouter>
   );
