@@ -1,4 +1,4 @@
-import { ArrowRight,FileText ,AlertTriangle,ShoppingBag,ChartNoAxesColumnIncreasing} from "lucide-react"
+import { ArrowRight,FileText ,AlertTriangle,ShoppingBag,ChartNoAxesColumnIncreasing,Calendar} from "lucide-react"
 
 const RecentAnalyses = () => {
 const analyses = [
@@ -64,7 +64,7 @@ const analyses = [
                 {/* desktop */}
                 <div
                 key={item.id}
-                className="grid grid-cols-1 gap-3 border-b border-slate-100 py-4 md:grid-cols-[48px_minmax(0,1fr)_100px_80px_35px] md:items-center md:gap-4"
+                className="hidden md:grid grid-cols-1 gap-3 border-b border-slate-100 py-4 md:grid-cols-[48px_minmax(0,1fr)_100px_80px_35px] md:items-center md:gap-4"
               >
                     {/* icon */}
               <div className={`flex h-12 w-12 shrink-0 items-center justify-center  rounded-xl ${item.color}`}>
@@ -94,6 +94,61 @@ const analyses = [
               {item.score}
              </div>
                 </div>
+
+{/* Mobile */}
+<div className="md:hidden">
+  {/* Icon + Title + Category */}
+  <div className="flex items-start gap-3">
+    {/* Icon */}
+    <div
+      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${item.color}`}
+    >
+      <item.icon size={24} />
+    </div>
+
+    {/* Title and Category */}
+    <div className="min-w-0 flex-1">
+      <p className="font-semibold text-base text-slate-900">
+        {item.title}
+      </p>
+
+      <p className="text-sm text-slate-500">
+        {item.category}
+      </p>
+
+      {/* Date */}
+      <div className="mt-2 flex items-center gap-2 text-sm text-slate-400">
+        <Calendar size={16} />
+        <span>{item.date}</span>
+      </div>
+
+      {/* Risk Badge + Score */}
+      <div className="mt-3 flex items-center justify-between">
+        {/* Risk */}
+        <span
+          className={`rounded-xl px-4 py-2 text-sm font-semibold ${
+            item.risk === "High"
+              ? "bg-red-100 text-red-500"
+              : item.risk === "Medium"
+              ? "bg-yellow-100 text-yellow-600"
+              : "bg-green-100 text-green-600"
+          }`}
+        >
+          {item.risk}
+        </span>
+
+        {/* Score */}
+        <span
+          className={`text-xl font-bold ${
+            item.risk === "High" ? "text-red-500" : "text-slate-900"
+          }`}
+        >
+          {item.score}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
             </div>
         ))
     }

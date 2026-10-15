@@ -9,7 +9,7 @@ import {
   Menu, X
  
 } from "lucide-react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import NavItem from "./Navitem";
 import UpgradeCard from "./UpgradeCard";
@@ -18,7 +18,7 @@ import UpgradeCard from "./UpgradeCard";
 const Sidebar = () => {
   const[activeItem,setActiveItem]=useState("Dashboard")
   const [isOpen,setIsOpen]=useState(false)
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <>
 {/* Mobile menu button */}
@@ -76,7 +76,9 @@ const Sidebar = () => {
           icon={<House size={20} className="text-blue-700"/>}
           text="Dashboard"
           active={activeItem==="Dashboard"}
-          onClick={()=>{setActiveItem("Dashboard")
+          onClick={()=>{
+            setActiveItem("Dashboard")
+            navigate("/dashboard")
           }}
           
         />
@@ -85,7 +87,9 @@ const Sidebar = () => {
           icon={<FileSearch size={20} className="text-green-500"/>}
           text="Analyze Message"
           active={activeItem==="Analyze"}
-           onClick={()=>{setActiveItem("Analyze")
+           onClick={()=>{
+            setActiveItem("Analyze")
+            navigate("/analyze-message")
           }}
         />
 
@@ -93,7 +97,9 @@ const Sidebar = () => {
           icon={<Clock size={20} className="text-red-500"/>}
           text="History"
           active={activeItem==="History"}
-          onClick={()=>{setActiveItem("History")
+          onClick={()=>{
+            setActiveItem("History")
+             navigate("/history")
           }}
         />
 
@@ -102,7 +108,9 @@ const Sidebar = () => {
           text="Learn About Scams"
 
            active={activeItem==="Learn"}
-          onClick={()=>{setActiveItem("Learn")
+          onClick={()=>{
+            setActiveItem("Learn")
+            navigate("/learnAbout")
           }}
         />
 
@@ -113,8 +121,9 @@ const Sidebar = () => {
           text="Saved Reports"
 
            active={activeItem==="Reports"}
-          onClick={()=>{setActiveItem("Reports")
-         
+          onClick={()=>{
+            setActiveItem("Reports")
+            navigate("/Saved-report")
           }}
         />
 
@@ -122,7 +131,9 @@ const Sidebar = () => {
           icon={<Settings size={20} className="text-gray-500"/>}
           text="Settings"
           active={activeItem==="Settings"}
-          onClick={()=>{setActiveItem("Settings")
+          onClick={()=>{
+            setActiveItem("Settings")
+            navigate("/settings")
            
           }
         }
