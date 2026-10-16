@@ -1,8 +1,10 @@
-
+import LearnAboutScams from "../components/Learn about Section/LearnAboutScams"
 
 const LearnAboutSection = () => {
   return (
-    <div>LearnAboutSection</div>
+    <div>
+      <LearnAboutScams />
+    </div>
   )
 }
 
