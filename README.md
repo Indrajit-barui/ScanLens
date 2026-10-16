@@ -196,9 +196,9 @@ and make safer decisions when they encounter suspicious messages.
 
 ## 👨‍💻 Author
 
-**Your Name**
+Indrajit Barui
 
-- GitHub: YOUR_GITHUB_PROFILE_URL
+- GitHub:https://github.com/Indrajit-barui/ScanLens
 
 ---
 
