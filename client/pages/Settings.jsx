@@ -1,5 +1,7 @@
 import ProfileSettings from "../components/Settings/ProfileSettings"
 import Account from "../components/Settings/Account"
+import Preference from "../components/Settings/Preference"
+import Notification from "../components/Settings/Notification"
 const Settings = () => {
   return (
     <div>
@@ -12,7 +14,8 @@ const Settings = () => {
 
       <ProfileSettings />
       <Account />
-
+       <Preference />
+       <Notification />
     </div>
   )
 }

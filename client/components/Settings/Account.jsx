@@ -1,23 +1,9 @@
 import {
-  UserRound,
-  Camera,
+
   LockKeyhole,
   Mail,
   Trash2,
-  Monitor,
-  Sun,
-  Moon,
-  Globe,
-  ChevronDown,
-  Bell,
-  ShieldCheck,
-  House,
-  Search,
-  BookOpen,
-  Clock,
-  Bookmark,
-  Settings,
-  Menu,
+
 } from "lucide-react";
 const Account = () => {
   return (
