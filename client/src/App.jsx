@@ -8,7 +8,7 @@ import Dashboard from "../pages/Dashboard";
 import AnalyzeMessage from "../pages/AnalyzeMessage";
 import History from "../pages/History";
 import LearnAboutSection from "../pages/LearnAboutSection";
-import SavedReports from "../pages/SavedReports";
+import ScamAwareness from "../pages/ScamAwareness";
 import Settings from "../pages/Settings";
 import ScamDetailsPage from "../components/Learn about Section/ScamDetailsPage";
 const App = () => {
@@ -26,7 +26,7 @@ const App = () => {
     <Route path="/history" element={<History />} />
     <Route path="/learnAbout" element={<LearnAboutSection />} /> 
     <Route path="/learn/:category" element={<ScamDetailsPage />} />
-    <Route path="/Saved-report" element={<SavedReports />} />
+    <Route path="/ScamAwareness" element={<ScamAwareness />} />
     <Route path="/settings" element={<Settings />} />
   </Route>
 </Routes>

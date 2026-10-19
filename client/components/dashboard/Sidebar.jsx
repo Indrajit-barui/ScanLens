@@ -4,9 +4,10 @@ import {
   FileSearch,
   Clock,
   BookOpen,
-  Bookmark,
   Settings,
-  Menu, X
+  Menu,
+   X,
+  GraduationCap
  
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -117,13 +118,13 @@ const Sidebar = () => {
 
 
         <NavItem
-          icon={<Bookmark size={20} className="text-blue-800"/>}
-          text="Saved Reports"
+          icon={<GraduationCap size={20} className="text-blue-800"/>}
+          text="Scam Awareness quiz"
 
-           active={activeItem==="Reports"}
+           active={activeItem==="ScamAwareness"}
           onClick={()=>{
-            setActiveItem("Reports")
-            navigate("/Saved-report")
+            setActiveItem("ScamAwareness")
+            navigate("/ScamAwareness")
           }}
         />
 

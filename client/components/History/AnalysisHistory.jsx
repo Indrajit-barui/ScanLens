@@ -1,4 +1,4 @@
-import { ChevronDown ,Search,FileText,Landmark,ChartNoAxesColumnIncreasing,ShoppingBag,Smartphone,Mail,Link,MessageSquare,Gift,MessageCircle,Trash2,ChevronRight,ChevronLeft} from "lucide-react"
+import { ChevronDown ,Search,FileText,Landmark,ChartNoAxesColumnIncreasing,ShoppingBag,Smartphone,Mail,Link,MessageSquare,Gift,MessageCircle,Trash2,ChevronRight,ChevronLeft,Calendar} from "lucide-react"
 import { useState } from "react";
 
 const AnalysisHistory = () => {
@@ -218,7 +218,7 @@ const currentData=historyData.slice(startIndex,startIndex+itemsPerPage);
         <div className="mt-4  rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 
 {/* Table Header */}
-<div className="grid grid-cols-[2.5fr_0.8fr_0.9fr_0.6fr_1fr_0.5fr] items-center rounded-xl bg-slate-50 px-5 py-4 text-sm font-bold text-slate-600 ">
+<div className="hidden md:grid grid-cols-[2.5fr_0.8fr_0.9fr_0.6fr_1fr_0.5fr] items-center rounded-xl bg-slate-50 px-5 py-4 text-sm font-bold text-slate-600 ">
   <p>Message Preview</p>
   <p>Type</p>
   <p className="flex items-center gap-2">
@@ -239,14 +239,14 @@ const currentData=historyData.slice(startIndex,startIndex+itemsPerPage);
            >
 
                  {/* desktop */}
-                <div className="grid grid-cols-[2.5fr_0.8fr_0.9fr_0.6fr_1fr_0.5fr] items-center rounded-xl  px-5 py-4  border-b border-gray-200">
+                <div className="hidden md:grid grid-cols-[2.5fr_0.8fr_0.9fr_0.6fr_1fr_0.5fr] items-center rounded-xl  px-5 py-4  border-b border-gray-200">
                       {/* icon */}
                       <div className="flex gap-2 items-center">
                         <div className={`h-12 w-12 rounded-xl flex justify-center items-center  ${data.iconBg} ${data.iconColor}`}>
                             <Icon />
                         </div>
                          
-                                                 {/*  */}
+                                {/*  */}
                       <div>
                      {data.message.length > 40
                         ? data.message.slice(0, 40) + "..."
@@ -260,16 +260,16 @@ const currentData=historyData.slice(startIndex,startIndex+itemsPerPage);
 
                      {/* Risk Level */}
                      <div
-  className={`flex h-10 w-30 items-center justify-center rounded-xl font-medium
-    ${
-      data.riskLevel === "High"
-        ? "bg-red-100 text-red-600"
-        : data.riskLevel === "Medium"
-        ? "bg-amber-100 text-amber-600"
-        : "bg-emerald-100 text-emerald-600"
-    }`}
+                      className={`flex h-10 w-30 items-center justify-center rounded-xl font-medium
+                         ${
+                          data.riskLevel === "High"
+                           ? "bg-red-100 text-red-600"
+                           : data.riskLevel === "Medium"
+                           ? "bg-amber-100 text-amber-600"
+                           : "bg-emerald-100 text-emerald-600"
+                          }`}
 >
-  {data.riskLevel}
+                              {data.riskLevel}
                      </div>
                       
                       {/* score */}
@@ -296,6 +296,72 @@ const currentData=historyData.slice(startIndex,startIndex+itemsPerPage);
                     </div>
                     
                 </div>
+
+{/* Mobile */}
+<div className="md:hidden flex  flex-col  items-start gap-3 border-b border-gray-200 py-3">
+  <div className="flex  w-full items-start gap-3 ">
+  {/* Icon */}
+  <div
+    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${data.iconBg} ${data.iconColor}`}
+  >
+    <Icon size={22} />
+  </div>
+
+  {/* Message preview */}
+  <div className="min-w-0 flex-1  text-sm text-gray-700">
+    {data.message.length > 40
+      ? data.message.slice(0, 40) + "..."
+      : data.message}
+  </div>
+
+
+{/* delete icon */}
+
+<div className="group flex h-12 w-12 cursor-pointer items-center justify-center rounded-2xl bg-gradient-to-br from-red-50 to-red-100 text-red-600 shadow-sm ring-1 ring-inset ring-red-200 transition-all duration-300 hover:-translate-y-0.5 hover:from-red-500 hover:to-rose-600 hover:text-white hover:shadow-lg hover:shadow-red-500/30 hover:ring-transparent active:scale-95">
+    <Trash2 size={22} className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+</div>
+  </div>
+
+
+<div className="flex w-full justify-between items-center">
+    <div className="text-gray-600 bg-gray-100 px-2 py-1 rounded-xl">
+              {data.type}
+    </div>
+
+    {/* risk level */}
+<div
+   className={`flex h-10 w-30 items-center justify-center rounded-xl font-medium
+               ${
+                  data.riskLevel === "High"
+                  ? "bg-red-100 text-red-600"
+                  : data.riskLevel === "Medium"
+                  ? "bg-amber-100 text-amber-600"
+                  : "bg-emerald-100 text-emerald-600"
+                  }`}
+>
+                     {data.riskLevel}
+</div>
+
+</div>
+
+
+<div className="flex w-full justify-between items-center">
+     <div className={`font-bold 
+                      ${data.riskLevel==="high"
+                        ?"text-red-600"
+                        :data.riskLevel==="Medium"
+                        ?"text-amber-600"
+                        :"text-emerald-600"
+                      }
+                        `}>
+                        {data.score}/100
+      </div>
+{/* date */}
+      <div className="text-sm text-gray-400 flex gap-2">
+          <Calendar />{data.date}
+      </div>
+</div>
+</div>
             </div>
            )
 })}
