@@ -1,9 +1,11 @@
-
+import AnalysisHistory from "../components/History/AnalysisHistory"
 
 
 const History = () => {
   return (
-    <div>History</div>
+    <div>
+      <AnalysisHistory />
+    </div>
   )
 }
 
