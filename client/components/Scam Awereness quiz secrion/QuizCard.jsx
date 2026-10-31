@@ -5,9 +5,13 @@ const QuizCategoryCard = ({
   iconBg,
   iconColor,
   questions,
-hoverBgColor}) => {
+hoverBgColor,
+onClick
+}) => {
   return (
-    <div className={`rounded-xl border border-gray-200 bg-white p-4 hover:border-red-400 ${hoverBgColor} cursor-pointer `}>
+    <div 
+    onClick={onClick}
+    className={`rounded-xl border border-gray-200 bg-white p-4 hover:border-red-400 ${hoverBgColor} cursor-pointer `}>
       {/* Icon */}
       <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${iconBg} ${iconColor}`}>
         <Icon size={24} />

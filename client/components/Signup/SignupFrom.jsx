@@ -1,8 +1,49 @@
 import { Link } from "react-router-dom"
 import { Shield ,UserRound,Mail,LockKeyhole,Eye,EyeOffIcon} from "lucide-react"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const SignupFrom = () => {
+  const navigate=useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (password !== confirmPassword) {
+    console.log("Passwords do not match");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/auth/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      }
+    );
+
+    const data = await response.json();
+if (response.ok) {
+  localStorage.setItem("token", data.token);
+  navigate("/dashboard");
+}else {
+      console.log("Registration failed:", data.message);
+    }
+  }
+    catch (error) {
+  console.error("Registration error:", error);
+
+  
+}
+  
+};
   return (
     <section className="flex min-h-screen w-full items-center justify-center bg-white px-5 py-6 sm:px-10 lg:h-screen lg:min-h-0 lg:overflow-y-auto lg:px-12">
         
@@ -25,7 +66,7 @@ const SignupFrom = () => {
             <p className="text-gray-400">Join ScamLens and stay one step ahead of scams.</p>
         </div>
 
-        <form >
+        <form onSubmit={handleSubmit}>
             {/* full name */}
             <div className="flex flex-col gap-2">
                 <label htmlFor="name" className="font-semibold">
@@ -40,7 +81,7 @@ const SignupFrom = () => {
                     placeholder="Enter your full name"
                     autoComplete="name"
                     required
-                    
+                    onChange={(e)=>setName(e.target.value)}
                     className="h-12 w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
                     
                     />
@@ -60,7 +101,7 @@ const SignupFrom = () => {
                     placeholder="Enter your email address"
                     autoComplete="email"
                     required
-                    
+                    onChange={(e)=>setEmail(e.target.value)}
                     className="h-12 w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
                     
                     />
@@ -80,6 +121,7 @@ const SignupFrom = () => {
                     placeholder="Create a password"
                     
                     required
+                    onChange={(e)=>setPassword(e.target.value)}
                     
                     className="h-12 w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
                     
@@ -110,7 +152,7 @@ const SignupFrom = () => {
                     placeholder="Confirm your password"
                     
                     required
-                    
+                    onChange={(e)=>setConfirmPassword(e.target.value)}
                     className="h-12 w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
                     
                     />
@@ -153,9 +195,13 @@ const SignupFrom = () => {
   </label>
           </div>
 
-          <div className="h-12 w-full bg-red-500 text-white text-2xl rounded-xl flex justify-center items-center mt-3">
-            Create Account
-          </div>
+<button
+  type="submit"
+ 
+  className="h-12 w-full bg-red-500 text-white text-2xl rounded-xl flex justify-center items-center mt-3"
+>
+  Create Account
+</button>
       
         </form>
         <p className="mt-4 text-center text-sm text-slate-500">

@@ -8,17 +8,41 @@ import {
   EyeOff,
  
 } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
+  const navigate=useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [email,setEmail]=useState("");
+  const[password,setPassword]=useState("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  try {
+    const response = await fetch(
+      "http://localhost:5000/auth/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    );
 
-    // Frontend only for now
-    console.log("Login form submitted");
-  };
+    const data = await response.json();
+
+    if (response.ok) {
+     localStorage.setItem("token", data.token);
+    console.log("Login successful!");
+      navigate("/dashboard");
+    } else {
+      console.log("Login failed:", data.message);
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+  }
+};
 
   return (
     <section className="flex min-h-screen w-full items-center justify-center bg-white px-5 py-6 sm:px-10 lg:h-screen lg:min-h-0 lg:overflow-y-auto lg:px-12">
@@ -69,6 +93,7 @@ const LoginForm = () => {
                 placeholder="Enter your email"
                 autoComplete="email"
                 required
+                onChange={(e)=>setEmail(e.target.value)}
                 className="h-12 w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
               />
             </div>
@@ -96,6 +121,7 @@ const LoginForm = () => {
                 placeholder="Enter your password"
                 autoComplete="current-password"
                 required
+                onChange={(e)=>setPassword(e.target.value)}
                 className="h-14 w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
               />
 

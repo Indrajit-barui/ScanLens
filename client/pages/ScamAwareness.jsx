@@ -4,7 +4,9 @@ import QuizStats from "../components/Scam Awereness quiz secrion/QuizStats"
 import QuizCategories from "../components/Scam Awereness quiz secrion/QuizCategories"
 import QuizSection from "../components/Scam Awereness quiz secrion/QuizSection"
 import QuizProgress from "../components/Scam Awereness quiz secrion/QuizProgress"
+import { useState } from "react"
 const ScamAwareness = () => {
+  const [selectedCategory,setSelectCategory]=useState("job-scams");
   return (
     <div className="mt-4  px-2 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 
@@ -29,12 +31,16 @@ const ScamAwareness = () => {
       </div>
 
       <div className=" mt-5">
-        <QuizCategories />
+        <QuizCategories 
+           onSelectCategory={setSelectCategory}
+        />
       </div>
 
 <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
   <div className="lg:col-span-2">
-    <QuizSection />
+    <QuizSection 
+     selectedCategory={selectedCategory}
+    />
   </div>
 
   <div className="lg:col-span-1">

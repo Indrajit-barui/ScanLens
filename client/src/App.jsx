@@ -11,6 +11,7 @@ import LearnAboutSection from "../pages/LearnAboutSection";
 import ScamAwareness from "../pages/ScamAwareness";
 import Settings from "../pages/Settings";
 import ScamDetailsPage from "../components/Learn about Section/ScamDetailsPage";
+import ProtectedRoute from "../components/ProtectedRoute";
 const App = () => {
   return (
     <BrowserRouter>
@@ -19,16 +20,17 @@ const App = () => {
   <Route path="/login" element={<Login />} />
   <Route path="/signup" element={<Signup />} />
   <Route path="/forgot-password" element={<Forgot />} />
-
+<Route element={<ProtectedRoute />}>
   <Route element={<DashboardLayout />}>
     <Route path="/dashboard" element={<Dashboard />} />
     <Route path="/analyze-message" element={<AnalyzeMessage />} />
     <Route path="/history" element={<History />} />
-    <Route path="/learnAbout" element={<LearnAboutSection />} /> 
+    <Route path="/learnAbout" element={<LearnAboutSection />} />
     <Route path="/learn/:category" element={<ScamDetailsPage />} />
     <Route path="/ScamAwareness" element={<ScamAwareness />} />
     <Route path="/settings" element={<Settings />} />
   </Route>
+</Route>
 </Routes>
     </BrowserRouter>
   );

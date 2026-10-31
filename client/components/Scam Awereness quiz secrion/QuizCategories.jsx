@@ -7,7 +7,7 @@ import {
   Phone,
 } from "lucide-react";
 import QuizCard from "./QuizCard";
-const QuizCategories = () => {
+const QuizCategories = ({onSelectCategory}) => {
     
  const quizCategories = [
   {
@@ -80,12 +80,17 @@ const QuizCategories = () => {
         </div>
          
          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 mt-5">
-        {quizCategories.map((category) => (
-          <QuizCard
-            key={category.id}
-            {...category}
-          />
-        ))}
+     {quizCategories.map((category) => (
+       <QuizCard
+    key={category.id}
+    {...category}
+    onClick={() =>
+      onSelectCategory?.(
+        category.title.toLowerCase().replaceAll(" ", "-")
+      )
+        }
+       />
+))}
         </div>
     </div>
   )
