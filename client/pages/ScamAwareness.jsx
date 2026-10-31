@@ -7,6 +7,8 @@ import QuizProgress from "../components/Scam Awereness quiz secrion/QuizProgress
 import { useState } from "react"
 const ScamAwareness = () => {
   const [selectedCategory,setSelectCategory]=useState("job-scams");
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [totalQuestions, setTotalQuestions] = useState(10);
   return (
     <div className="mt-4  px-2 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 
@@ -40,11 +42,16 @@ const ScamAwareness = () => {
   <div className="lg:col-span-2">
     <QuizSection 
      selectedCategory={selectedCategory}
+     setCurrentQuestion={setCurrentQuestion}
+     setTotalQuestions={setTotalQuestions}
     />
   </div>
 
   <div className="lg:col-span-1">
-    <QuizProgress />
+    <QuizProgress
+  currentQuestion={currentQuestion}
+  totalQuestions={totalQuestions}
+    />
   </div>
 </div>
     </div>

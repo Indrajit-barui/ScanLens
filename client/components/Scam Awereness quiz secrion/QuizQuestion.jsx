@@ -70,7 +70,7 @@ className={`flex min-h-[50px] items-center gap-3 rounded-xl border px-4 py-3 tex
 </button>
   </div>
 
-<div className="flex gap-2 items-center">
+<div className="flex flex-col md:flex-row gap-2 items-center">
 <button 
 onClick={()=>{
   onPrev();

@@ -2,7 +2,7 @@
 import QuizQuestion from "./QuizQuestion";
 import QuizResult from "./QuizResult";
 import { useState,useEffect } from "react";
-const QuizSection = ({selectedCategory}) => {
+const QuizSection = ({selectedCategory,setCurrentQuestion,setTotalQuestions}) => {
 const [questions, setQuestions] = useState([]);
 const [answers, setAnswers] = useState({});
 const [loading, setLoading] = useState(false);
@@ -27,6 +27,8 @@ useEffect(() => {
       }
 
       setQuestions(data.questions);
+      setTotalQuestions(data.questions.length);
+      setCurrentQuestion(1);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -80,12 +82,12 @@ const handleSubmitQuiz = async () => {
          </p>
             {/* Question Progress */}
 <div className="flex items-center justify-end gap-3">
-  <span className="text-xs font-medium text-gray-600">
-    Question {currentQuestionIndex+1} of {questions.length}
-  </span>
+<span className="hidden md:block text-xs font-medium text-gray-600">
+  Question {currentQuestionIndex + 1} of {questions.length}
+</span>
 
-  <div className="h-1.5 w-52 overflow-hidden rounded-full bg-gray-200">
-    <div className="h-full w-[10%] rounded-full bg-red-500"
+  <div className="hidden md:block h-1.5 w-52 overflow-hidden rounded-full bg-gray-200">
+    <div className=" h-full w-[10%] rounded-full bg-red-500"
      style={{width:`${progress}%`}}
     ></div>
   </div>
@@ -130,16 +132,21 @@ const handleSubmitQuiz = async () => {
 <QuizQuestion
   question={questions[currentQuestionIndex]}
   selectedAnswer={answers[currentQuestionIndex]?.selectedAnswer ?? null}
-  onNext={() =>
-    setCurrentQuestionIndex((prev) =>
-      prev < questions.length - 1 ? prev + 1 : prev
-    )
-  }
-  onPrev={() =>
-    setCurrentQuestionIndex((prev) =>
-      prev > 0 ? prev - 1 : 0
-    )
-  }
+onNext={() => {
+  setCurrentQuestionIndex((prev) => {
+    const next = prev < questions.length - 1 ? prev + 1 : prev;
+    setCurrentQuestion(next + 1);
+    return next;
+  });
+}}
+
+onPrev={() => {
+  setCurrentQuestionIndex((prev) => {
+    const previous = prev > 0 ? prev - 1 : 0;
+    setCurrentQuestion(previous + 1);
+    return previous;
+  });
+}}
   currentQuestionIndex={currentQuestionIndex}
   totalQuestion={questions.length}
 onFinish={() => {

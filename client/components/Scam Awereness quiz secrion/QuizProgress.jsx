@@ -3,39 +3,39 @@ import {
   History,
   
 } from "lucide-react";
+import { useState ,useEffect} from "react";
+const QuizProgress = ({currentQuestion,totalQuestions}) => {
+const [history, setHistory] = useState([]);
+const [loading, setLoading] = useState(true);
 
-const QuizProgress = () => {
-  const recentScores = [
-    {
-      id: 1,
-      category: "Banking Scams",
-      score: 9,
-      total: 10,
-      date: "Oct 6, 2026",
-      color: "bg-emerald-500",
-    },
-    {
-      id: 2,
-      category: "Shopping Scams",
-      score: 7,
-      total: 10,
-      date: "Oct 4, 2026",
-      color: "bg-amber-400",
-    },
-    {
-      id: 3,
-      category: "Job Scams",
-      score: 8,
-      total: 10,
-      date: "Oct 2, 2026",
-      color: "bg-emerald-500",
-    },
-  ];
 
-  const currentQuestion = 1;
-  const totalQuestions = 10;
   const progress = (currentQuestion / totalQuestions) * 100;
+useEffect(() => {
+  const fetchQuizHistory = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/quiz/history", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch quiz history");
+      }
+
+      setHistory(data.history);
+
+    } catch (error) {
+      console.error("Error fetching quiz history:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchQuizHistory();
+}, []);
   return (
     <div className="flex w-full flex-col gap-4">
 
@@ -105,49 +105,53 @@ const QuizProgress = () => {
             View All
           </button>
         </div>
+{/* Scores */}
+<div className="flex flex-col gap-5">
+  {loading ? (
+    <p className="text-center text-sm text-gray-500">
+      Loading quiz history...
+    </p>
+  ) : history.length > 0 ? (
+    history.map((item) => {
+      const percentage = item.score;
 
-        {/* Scores */}
-        <div className="flex flex-col gap-5">
-          {recentScores.map((item) => {
-            const percentage = (item.score / item.total) * 100;
+      return (
+        <div key={item._id} className="flex flex-col gap-2">
+          <div className="flex items-center justify-between gap-3">
+            <span className="min-w-0 flex-1 truncate text-sm text-gray-600">
+              {item.category.replaceAll("-", " ")}
+            </span>
 
-            return (
+            <span className="shrink-0 text-sm font-bold text-gray-900">
+              {item.correctAnswers}/{item.totalQuestions}
+            </span>
+
+            <div className="h-2 w-16 shrink-0 overflow-hidden rounded-full bg-gray-200 sm:w-20">
               <div
-                key={item.id}
-                className="flex flex-col gap-2"
-              >
-                {/* Score Information */}
-                <div className="flex items-center justify-between gap-3">
+                className={`h-full rounded-full ${
+                  percentage >= 70 ? "bg-emerald-500" : "bg-amber-400"
+                }`}
+                style={{ width: `${percentage}%` }}
+              />
+            </div>
 
-                  <span className="min-w-0 flex-1 truncate text-sm text-gray-600">
-                    {item.category}
-                  </span>
+            <span className="hidden shrink-0 text-xs text-gray-500 sm:block">
+              {new Date(item.createdAt).toLocaleDateString()}
+            </span>
+          </div>
 
-                  <span className="shrink-0 text-sm font-bold text-gray-900">
-                    {item.score}/{item.total}
-                  </span>
-
-                  {/* Progress Bar */}
-                  <div className="h-2 w-16 shrink-0 overflow-hidden rounded-full bg-gray-200 sm:w-20">
-                    <div
-                      className={`h-full rounded-full ${item.color}`}
-                      style={{ width: `${percentage}%` }}
-                    />
-                  </div>
-
-                  <span className="hidden shrink-0 text-xs text-gray-500 sm:block">
-                    {item.date}
-                  </span>
-                </div>
-
-                {/* Date on smaller screens */}
-                <p className="text-xs text-gray-400 sm:hidden">
-                  {item.date}
-                </p>
-              </div>
-            );
-          })}
+          <p className="text-xs text-gray-400 sm:hidden">
+            {new Date(item.createdAt).toLocaleDateString()}
+          </p>
         </div>
+      );
+    })
+  ) : (
+    <p className="text-center text-sm text-gray-500">
+      No quiz attempts yet. Complete your first quiz!
+    </p>
+  )}
+</div>
       </div>
 
     </div>
