@@ -4,7 +4,8 @@ const cors=require("cors");
 const connectDB=require("./config/db");
 const authRoutes=require("./routes/authRoutes")
 const userRoutes=require("./routes/userRoutes")
-
+const quizRoutes=require("./routes/quizRoutes")
+const analysisRoutes=require("./routes/analysisRoutes")
 dotenv.config();
 
 const app=express();
@@ -13,9 +14,10 @@ app.use(cors());
 app.use(express.json());
 
 
-app.use("/auth",authRoutes)
+app.use("/auth",authRoutes);
 app.use("/user",userRoutes);
-
+app.use("/quiz",quizRoutes);
+app.use("/analysis",analysisRoutes)
 // start server
 const startServer=async () =>{
     try {
