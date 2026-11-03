@@ -1,6 +1,6 @@
 import { ChevronDown ,Search,FileText,Landmark,ChartNoAxesColumnIncreasing,ShoppingBag,Smartphone,Mail,Link,MessageSquare,Gift,MessageCircle,Trash2,ChevronRight,ChevronLeft,Calendar} from "lucide-react"
-import { useState } from "react";
-
+import { useState ,useEffect} from "react";
+import { getAnalysisHistory } from "@/api/historyApi";
 const AnalysisHistory = () => {
      const historyData = [
   {

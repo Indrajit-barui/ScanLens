@@ -83,4 +83,24 @@ return res.status(200).json({
   }
 };
 
-module.exports = { analyzeMessage };
+
+const getAnalysisHistory=async (req,res) => {
+  try {
+    const history=await Analysis.find({
+      user:req.userId,
+    }).sort({createdAt:-1})
+
+    return res.status(200).json({
+      success:true,
+      count:history.length.history
+    })
+  } catch (error) {
+    console.log("history error: ",error)
+    return res.status.json({
+      success:false,
+      message:"Failed to fetch analysis history."
+    })
+  }
+}
+
+module.exports = { analyzeMessage ,getAnalysisHistory};
