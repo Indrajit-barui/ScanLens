@@ -1,148 +1,94 @@
-import { ChevronDown ,Search,FileText,Landmark,ChartNoAxesColumnIncreasing,ShoppingBag,Smartphone,Mail,Link,MessageSquare,Gift,MessageCircle,Trash2,ChevronRight,ChevronLeft,Calendar} from "lucide-react"
+import { ChevronDown ,Search,FileText,Mail,Link,MessageSquare,Users,BriefcaseBusiness,Trash2,ChevronRight,ChevronLeft,Calendar} from "lucide-react"
 import { useState ,useEffect} from "react";
 import { getAnalysisHistory } from "@/api/historyApi";
+import { deleteAnalysis } from "@/api/deleteAnalysis";
 const AnalysisHistory = () => {
-     const historyData = [
-  {
-    id: 1,
-    message:
-      "Congratulations! You have been selected for a work-from-home job earning ₹50,000/month. Pay ₹1,999 as a registration fee to begin immediately.",
-    type: "Job Offer",
-    riskLevel: "High",
-    score: 87,
-    date: "Oct 7, 2026",
-    icon: FileText,
-    iconBg: "bg-purple-100",
-    iconColor: "text-purple-600",
+const typeStyles = {
+  "Text Message": {
+    icon: MessageSquare,
+    bg: "bg-blue-100",
+    color: "text-blue-600",
   },
-  {
-    id: 2,
-    message:
-      "Your KYC is pending. Click the link below to verify your bank account and avoid account suspension.",
-    type: "Banking",
-    riskLevel: "High",
-    score: 92,
-    date: "Oct 6, 2026",
-    icon: Landmark,
-    iconBg: "bg-amber-100",
-    iconColor: "text-amber-600",
-  },
-  {
-    id: 3,
-    message:
-      "Invest ₹5,000 today and receive guaranteed returns of ₹50,000 within seven days. Limited slots available!",
-    type: "Investment",
-    riskLevel: "High",
-    score: 89,
-    date: "Oct 5, 2026",
-    icon: ChartNoAxesColumnIncreasing,
-    iconBg: "bg-rose-100",
-    iconColor: "text-rose-600",
-  },
-  {
-    id: 4,
-    message:
-      "Your parcel delivery has been delayed. Pay ₹25 for redelivery using the link below.",
-    type: "Shopping",
-    riskLevel: "Medium",
-    score: 54,
-    date: "Oct 4, 2026",
-    icon: ShoppingBag,
-    iconBg: "bg-amber-100",
-    iconColor: "text-amber-600",
-  },
- {
-  id: 5,
-  message:
-    "Your mobile number has won a free recharge worth ₹2,000! Share the OTP sent to your phone to claim your reward.",
-  type: "OTP",
-  riskLevel: "High",
-  score: 85,
-  date: "Oct 3, 2026",
-  icon: Smartphone,
-  iconBg: "bg-rose-100",
-  iconColor: "text-rose-600",
-},
-{
-  id: 6,
-  message:
-    "Your interview is scheduled for tomorrow at 10 AM. Please join using the meeting link provided by our HR team.",
-  type: "Email",
-  riskLevel: "Low",
-  score: 18,
-  date: "Oct 2, 2026",
-  icon: Mail,
-  iconBg: "bg-sky-100",
-  iconColor: "text-sky-600",
-},
-{
-  id: 7,
-  message:
-    "Congratulations! You have been selected to receive a special reward. Visit this website and enter your personal details to claim it.",
-  type: "Link/Website",
-  riskLevel: "High",
-  score: 91,
-  date: "Oct 1, 2026",
-  icon: Link,
-  iconBg: "bg-purple-100",
-  iconColor: "text-purple-600",
-},
-{
-  id: 8,
-  message:
-    "Hello, I am calling from your company's HR department. Please send your Aadhaar number and bank details to complete your job verification.",
-  type: "Impersonation",
-  riskLevel: "High",
-  score: 88,
-  date: "Sep 30, 2026",
-  icon: MessageSquare,
-  iconBg: "bg-emerald-100",
-  iconColor: "text-emerald-600",
-},
-{
-  id: 9,
-  message:
-    "You have won a brand-new iPhone! Pay a small processing fee of ₹499 to confirm your prize and arrange delivery.",
-  type: "Lottery/Prize",
-  riskLevel: "High",
-  score: 93,
-  date: "Sep 29, 2026",
-  icon: Gift,
-  iconBg: "bg-amber-100",
-  iconColor: "text-amber-600",
-},
-{
-  id: 10,
-  message:
-    "Hello, I have an urgent request. Please share your bank account details so I can transfer the money to you immediately.",
-  type: "Other",
-  riskLevel: "Medium",
-  score: 56,
-  date: "Sep 28, 2026",
-  icon: MessageCircle,
-  iconBg: "bg-sky-100",
-  iconColor: "text-sky-600",
-},
-  {
-    id: 11,
-    message:
-      "Congratulations! You have been selected for a work-from-home job earning ₹50,000/month. Pay ₹1,999 as a registration fee to begin immediately.",
-    type: "Job Offer",
-    riskLevel: "High",
-    score: 87,
-    date: "Oct 7, 2026",
-    icon: FileText,
-    iconBg: "bg-purple-100",
-    iconColor: "text-purple-600",
-  },
-];
 
+  Email: {
+    icon: Mail,
+    bg: "bg-sky-100",
+    color: "text-sky-600",
+  },
+
+  "Job Offer": {
+    icon: BriefcaseBusiness,
+    bg: "bg-purple-100",
+    color: "text-purple-600",
+  },
+
+  "Social Media": {
+    icon: Users,
+    bg: "bg-pink-100",
+    color: "text-pink-600",
+  },
+
+  "Link/Website": {
+    icon: Link,
+    bg: "bg-indigo-100",
+    color: "text-indigo-600",
+  },
+
+  Other: {
+    icon: FileText,
+    bg: "bg-gray-100",
+    color: "text-gray-600",
+  },
+};
+const [history, setHistory] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState("");
+
+useEffect(() => {
+  const fetchHistory = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+const data = await getAnalysisHistory();
+
+console.log("API RESPONSE:", data);
+setHistory(data.history || []);
+
+    } catch (error) {
+      console.error("History Fetch Error:", error);
+      setError(error.message || "Failed to load analysis history.");
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchHistory();
+}, []);
+
+const handleDelete = async (id) => {
+  try {
+    await deleteAnalysis(id);
+
+    setHistory((prevHistory) =>
+      prevHistory.filter((item) => item._id !== id)
+    );
+
+  } catch (error) {
+    console.error("Delete Error:", error);
+    setError(error.message || "Failed to delete analysis.");
+  }
+};
 const [currentPage,setCurrentPage]=useState(1);
 
 const itemsPerPage=10;
-const totalpage=Math.ceil(historyData.length/ itemsPerPage);
+const totalpage = Math.ceil(history.length / itemsPerPage);
 const startIndex=(currentPage - 1 ) * itemsPerPage;
-const currentData=historyData.slice(startIndex,startIndex+itemsPerPage);
+const currentData = history.slice(
+  startIndex,
+  startIndex + itemsPerPage
+);
   return (
     <>
     <div className="mt-4  rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
@@ -233,8 +179,14 @@ const currentData=historyData.slice(startIndex,startIndex+itemsPerPage);
  {/* actual history */}
      <div  >
         {currentData.map((data)=>{
-            const Icon=data.icon
-           return( <div key={data.id}
+          const style = typeStyles[data.contentType] || {
+            icon: FileText,
+  bg: "bg-gray-100",
+  color: "text-gray-600",
+           };
+
+const Icon = style.icon;
+           return( <div key={data._id}
            
            >
 
@@ -242,56 +194,68 @@ const currentData=historyData.slice(startIndex,startIndex+itemsPerPage);
                 <div className="hidden md:grid grid-cols-[2.5fr_0.8fr_0.9fr_0.6fr_1fr_0.5fr] items-center rounded-xl  px-5 py-4  border-b border-gray-200">
                       {/* icon */}
                       <div className="flex gap-2 items-center">
-                        <div className={`h-12 w-12 rounded-xl flex justify-center items-center  ${data.iconBg} ${data.iconColor}`}>
-                            <Icon />
-                        </div>
+                        <div
+                        className={`flex h-12 w-12 items-center justify-center rounded-xl ${style.bg} ${style.color}`}
+                         >
+                              <Icon size={22} />
+                       </div>
                          
                                 {/*  */}
                       <div>
-                     {data.message.length > 40
-                        ? data.message.slice(0, 40) + "..."
-                       : data.message}
+                     {data.content.length > 40
+                         ? data.content.slice(0, 40) + "..."
+                         : data.content}
                     </div>
                       </div>
                       
                       <div className="text-gray-600">
-                        {data.type}
+                        {data.contentType}
                       </div>
 
-                     {/* Risk Level */}
-                     <div
-                      className={`flex h-10 w-30 items-center justify-center rounded-xl font-medium
-                         ${
-                          data.riskLevel === "High"
-                           ? "bg-red-100 text-red-600"
-                           : data.riskLevel === "Medium"
-                           ? "bg-amber-100 text-amber-600"
-                           : "bg-emerald-100 text-emerald-600"
-                          }`}
+                    
+{/* Risk Level */}
+<div
+  className={`flex h-10 w-30 items-center justify-center rounded-xl font-medium
+    ${
+      data.riskLevel === "High"
+        ? "bg-red-100 text-red-600"
+        : data.riskLevel === "Medium"
+        ? "bg-amber-100 text-amber-600"
+        : "bg-emerald-100 text-emerald-600"
+    }`}
 >
-                              {data.riskLevel}
-                     </div>
+  {data.riskLevel}
+</div>
                       
-                      {/* score */}
 
-                      <div className={`font-bold 
-                        ${data.riskLevel==="high"
-                            ?"text-red-600"
-                            :data.riskLevel==="Medium"
-                            ?"text-amber-600"
-                            :"text-emerald-600"
-                        }
-                        `}>
-                        {data.score}
-                      </div>
+{/* Score */}
+<div
+  className={`font-bold
+    ${
+      data.riskLevel === "High"
+        ? "text-red-600"
+        : data.riskLevel === "Medium"
+        ? "text-amber-600"
+        : "text-emerald-600"
+    }
+  `}
+>
+  {data.riskScore}
+</div>
 
                       {/* data */}
                       <div className="text-sm text-gray-400">
-                        {data.date}
+                        {new Date(data.createdAt).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                        })}
                       </div>
 
                       {/* action */}
-                     <div className="group flex h-12 w-12 cursor-pointer items-center justify-center rounded-2xl bg-gradient-to-br from-red-50 to-red-100 text-red-600 shadow-sm ring-1 ring-inset ring-red-200 transition-all duration-300 hover:-translate-y-0.5 hover:from-red-500 hover:to-rose-600 hover:text-white hover:shadow-lg hover:shadow-red-500/30 hover:ring-transparent active:scale-95">
+                     <div 
+                     onClick={()=>handleDelete(data._id)}
+                     className="group flex h-12 w-12 cursor-pointer items-center justify-center rounded-2xl bg-gradient-to-br from-red-50 to-red-100 text-red-600 shadow-sm ring-1 ring-inset ring-red-200 transition-all duration-300 hover:-translate-y-0.5 hover:from-red-500 hover:to-rose-600 hover:text-white hover:shadow-lg hover:shadow-red-500/30 hover:ring-transparent active:scale-95">
                      <Trash2 size={22} className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
                     </div>
                     
@@ -302,63 +266,76 @@ const currentData=historyData.slice(startIndex,startIndex+itemsPerPage);
   <div className="flex  w-full items-start gap-3 ">
   {/* Icon */}
   <div
-    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${data.iconBg} ${data.iconColor}`}
+className={`flex h-12 w-12 items-center justify-center rounded-xl ${style.bg} ${style.color}`}
   >
     <Icon size={22} />
   </div>
 
   {/* Message preview */}
   <div className="min-w-0 flex-1  text-sm text-gray-700">
-    {data.message.length > 40
-      ? data.message.slice(0, 40) + "..."
-      : data.message}
+{data.content.length > 40
+  ? data.content.slice(0, 40) + "..."
+  : data.content}
   </div>
 
 
 {/* delete icon */}
 
-<div className="group flex h-12 w-12 cursor-pointer items-center justify-center rounded-2xl bg-gradient-to-br from-red-50 to-red-100 text-red-600 shadow-sm ring-1 ring-inset ring-red-200 transition-all duration-300 hover:-translate-y-0.5 hover:from-red-500 hover:to-rose-600 hover:text-white hover:shadow-lg hover:shadow-red-500/30 hover:ring-transparent active:scale-95">
-    <Trash2 size={22} className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+<div 
+onClick={()=> handleDelete(data._id)}
+className="group flex h-12 w-12 cursor-pointer items-center justify-center rounded-2xl bg-gradient-to-br from-red-50 to-red-100 text-red-600 shadow-sm ring-1 ring-inset ring-red-200 transition-all duration-300 hover:-translate-y-0.5 hover:from-red-500 hover:to-rose-600 hover:text-white hover:shadow-lg hover:shadow-red-500/30 hover:ring-transparent active:scale-95">
+    <Trash2 
+     
+    size={22} className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
 </div>
   </div>
 
 
 <div className="flex w-full justify-between items-center">
     <div className="text-gray-600 bg-gray-100 px-2 py-1 rounded-xl">
-              {data.type}
+              {data.contentType}
     </div>
 
     {/* risk level */}
+{/* Risk Level */}
 <div
-   className={`flex h-10 w-30 items-center justify-center rounded-xl font-medium
-               ${
-                  data.riskLevel === "High"
-                  ? "bg-red-100 text-red-600"
-                  : data.riskLevel === "Medium"
-                  ? "bg-amber-100 text-amber-600"
-                  : "bg-emerald-100 text-emerald-600"
-                  }`}
+  className={`flex h-10 w-30 items-center justify-center rounded-xl font-medium
+    ${
+      data.riskLevel === "High"
+        ? "bg-red-100 text-red-600"
+        : data.riskLevel === "Medium"
+        ? "bg-amber-100 text-amber-600"
+        : "bg-emerald-100 text-emerald-600"
+    }`}
 >
-                     {data.riskLevel}
+  {data.riskLevel}
 </div>
 
 </div>
 
 
 <div className="flex w-full justify-between items-center">
-     <div className={`font-bold 
-                      ${data.riskLevel==="high"
-                        ?"text-red-600"
-                        :data.riskLevel==="Medium"
-                        ?"text-amber-600"
-                        :"text-emerald-600"
-                      }
-                        `}>
-                        {data.score}/100
-      </div>
+{/* Score */}
+<div
+  className={`font-bold
+    ${
+      data.riskLevel === "High"
+        ? "text-red-600"
+        : data.riskLevel === "Medium"
+        ? "text-amber-600"
+        : "text-emerald-600"
+    }
+  `}
+>
+  {data.riskScore}/100
+</div>
 {/* date */}
       <div className="text-sm text-gray-400 flex gap-2">
-          <Calendar />{data.date}
+          <Calendar />{new Date(data.createdAt).toLocaleDateString("en-IN", {             
+             day: "numeric",
+             month: "short",
+             year: "numeric",
+           })}
       </div>
 </div>
 </div>
@@ -366,7 +343,17 @@ const currentData=historyData.slice(startIndex,startIndex+itemsPerPage);
            )
 })}
      </div>
+{loading && (
+  <p className="py-10 text-center text-gray-500">
+    Loading analysis history...
+  </p>
+)}
 
+{error && (
+  <p className="py-10 text-center text-red-500">
+    {error}
+  </p>
+)}
      {/* Pagination Buttons */}
 <div className="flex items-center gap-3 mt-3">
 

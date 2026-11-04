@@ -3,7 +3,35 @@ import {Mail,MessageSquare,BriefcaseBusiness,UserRound,Link,FileText} from "luci
 import MessageBox from "./MessageBox"
 import AnalyzeButton from "./AnalyzeButton"
 import TryExample from "./TryExample"
+import { analyzeMessage } from "@/api/analysisApi"
+import AnalysisResult from "./AnalysisResult/AnalysisResult"
 const MessageAnalyzer = () => {
+  const [analysis, setAnalysis] = useState(null);
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState("");
+const handleAnalyze = async () => {
+  if (!message.trim()) {
+    setError("Please enter a message to analyze.");
+    return;
+  }
+
+  try {
+    setLoading(true);
+    setError("");
+    setAnalysis(null);
+
+    const data = await analyzeMessage(message, selectedCategory);
+
+    setAnalysis(data.analysis);
+
+  } catch (error) {
+    console.error("Analysis failed:", error.message);
+    setError(error.message || "Something went wrong.");
+
+  } finally {
+    setLoading(false);
+  }
+};
 const categories = [
   { name: "Text Message", icon: MessageSquare },
   { name: "Email", icon: Mail },
@@ -77,7 +105,10 @@ const categories = [
 
 {/* Analyze button */}
 <div>
-<AnalyzeButton />
+<AnalyzeButton
+ onClick={handleAnalyze}
+ loading={loading}
+ />
 </div>
 
 {/* try example */}
@@ -86,6 +117,20 @@ const categories = [
    onSelectExample={setMessage}
   />
 </div>
+
+{/* Error Message */}
+{error && (
+  <div className="mt-5 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+    {error}
+  </div>
+)}
+
+{/* Analysis Results */}
+{analysis && (
+  <div className="mt-8">
+    <AnalysisResult analysis={analysis} />
+  </div>
+)}
     </div>
   )
 }
