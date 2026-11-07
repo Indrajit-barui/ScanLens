@@ -71,9 +71,21 @@ const handleDelete = async (id) => {
   try {
     await deleteAnalysis(id);
 
-    setHistory((prevHistory) =>
-      prevHistory.filter((item) => item._id !== id)
-    );
+    setHistory((prevHistory) => {
+      const updatedHistory = prevHistory.filter(
+        (item) => item._id !== id
+      );
+
+      const newTotalPages = Math.ceil(
+        updatedHistory.length / itemsPerPage
+      );
+
+      if (currentPage > newTotalPages && newTotalPages > 0) {
+        setCurrentPage(newTotalPages);
+      }
+
+      return updatedHistory;
+    });
 
   } catch (error) {
     console.error("Delete Error:", error);

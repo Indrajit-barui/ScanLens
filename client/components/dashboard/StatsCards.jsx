@@ -1,28 +1,28 @@
 import Statscard from "./Statscard"
 import { FileText,AlertTriangle ,Send,ShieldCheck} from "lucide-react";
-const StatsCards = () => {
-    const stats = [
+const StatsCards = ({stats}) => {
+const cards = [
   {
     title: "Total Analyses",
-    value: 24,
+    value: stats.totalAnalyses,
     icon: <FileText size={32} className="text-purple-600" />,
     color: "bg-purple-100",
   },
   {
     title: "High Risk",
-    value: 9,
+    value: stats.highRisk,
     icon: <AlertTriangle size={32} className="text-red-500" />,
     color: "bg-red-100",
   },
   {
     title: "Medium Risk",
-    value: 7,
+    value: stats.mediumRisk,
     icon: <Send size={32} className="text-yellow-500" />,
     color: "bg-yellow-100",
   },
   {
     title: "Low Risk",
-    value: 8,
+    value: stats.lowRisk,
     icon: <ShieldCheck size={32} className="text-green-600" />,
     color: "bg-green-100",
   },
@@ -30,7 +30,7 @@ const StatsCards = () => {
   return (
     <div className="grid grid-cols-1 gap-1 md:gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {
-            stats.map((stat)=>(
+            cards.map((stat)=>(
                 
                 <Statscard 
                 

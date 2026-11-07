@@ -1,48 +1,53 @@
-import { ArrowRight,FileText ,AlertTriangle,ShoppingBag,ChartNoAxesColumnIncreasing,Calendar} from "lucide-react"
+import { ArrowRight,FileText ,BriefcaseBusiness,ShoppingBag,ChartNoAxesColumnIncreasing,Calendar,Mail,MessageSquare,Users,Link,Landmark} from "lucide-react"
 
-const RecentAnalyses = () => {
-const analyses = [
-  {
-    id: 1,
-    title: "Work from home job offer",
-    category: "Job Offer",
-    date: "Oct 7, 2026",
-    risk: "High",
-    score: 87,
-    icon: FileText,
-    color: "bg-purple-100 text-purple-600",
+const RecentAnalyses = ({analyses}) => {
+const typeStyles = {
+  "Text Message": {
+    icon: MessageSquare,
+    bg: "bg-blue-100",
+    color: "text-blue-600",
   },
-  {
-    id: 2,
-    title: "Bank KYC update SMS",
-    category: "Banking",
-    date: "Oct 6, 2026",
-    risk: "High",
-    score: 92,
-    icon: AlertTriangle,
-    color: "bg-red-100 text-red-500",
+  Email: {
+    icon: Mail,
+    bg: "bg-sky-100",
+    color: "text-sky-600",
   },
-  {
-    id: 3,
-    title: "Amazon delivery message",
-    category: "Shopping",
-    date: "Oct 5, 2026",
-    risk: "Low",
-    score: 18,
-    icon: ShoppingBag,
-    color: "bg-green-100 text-green-600",
+  "Job Offer": {
+    icon: BriefcaseBusiness,
+    bg: "bg-purple-100",
+    color: "text-purple-600",
   },
-  {
-    id: 4,
-    title: "Investment opportunity",
-    category: "Investment",
-    date: "Oct 4, 2026",
-    risk: "High",
-    score: 89,
+  "Social Media": {
+    icon: Users,
+    bg: "bg-pink-100",
+    color: "text-pink-600",
+  },
+  "Link/Website": {
+    icon: Link,
+    bg: "bg-indigo-100",
+    color: "text-indigo-600",
+  },
+  Banking: {
+    icon: Landmark,
+    bg: "bg-amber-100",
+    color: "text-amber-600",
+  },
+  Investment: {
     icon: ChartNoAxesColumnIncreasing,
-    color: "bg-yellow-100 text-yellow-600",
+    bg: "bg-green-100",
+    color: "text-green-600",
   },
-];
+  Shopping: {
+    icon: ShoppingBag,
+    bg: "bg-orange-100",
+    color: "text-orange-600",
+  },
+  Other: {
+    icon: FileText,
+    bg: "bg-gray-100",
+    color: "text-gray-600",
+  },
+};
   return (
     <div>
 {/* Header */}
@@ -59,39 +64,53 @@ const analyses = [
 
 <div>
     {
-        analyses.map((item)=>(
-            <div>
+        analyses.map((item)=>{
+          const style=typeStyles[item.contentType] || {
+            icon:FileText,
+            bg:"bg-gray-100",
+            color:"text-gray-600"
+          }
+
+          const Icon=style.icon
+           return (
+            <div key={item._id}>
                 {/* desktop */}
                 <div
-                key={item.id}
+                
                 className="hidden md:grid grid-cols-1 gap-3 border-b border-slate-100 py-4 md:grid-cols-[48px_minmax(0,1fr)_100px_80px_35px] md:items-center md:gap-4"
               >
-                    {/* icon */}
-              <div className={`flex h-12 w-12 shrink-0 items-center justify-center  rounded-xl ${item.color}`}>
-                  <item.icon size={24} />
+                  
+              <div className={`flex h-12 w-12 shrink-0 items-center justify-center  rounded-xl ${style.bg} ${style.color}`}>
+                 <Icon></Icon>
             </div>
              {/* title and category */}
             <div className="flex flex-col">
-              <p className="font-semibold">{item.title}</p>
-              <p className="text-gray-400">{item.category}</p>
+              {item.content.length > 35
+                 ? item.content.slice(0, 35) + "..."
+                 : item.content}
+              <p className="text-gray-400">{item.contentType}</p>
             </div>
 
             {/* data */}
 
             <div className="text-sm text-gray-400">
-                {item.date}
+                {new Date(item.createdAt).toLocaleDateString("en-IN", {
+             day: "numeric",
+             month: "short",
+             year: "numeric",
+           })}
             </div>
 
             {/* risk */}
             <div className={`h-10 w-12 ${item.color} rounded-xl flex items-center justify-center`}>
-                {item.risk}
+                {item.riskLevel}
             </div>
             {/* score */}
 
              <div className={`text-xl font-semibold ${
-                  item.risk === "High" ? "text-red-500" : "text-slate-900"
+                  item.riskLevel === "High" ? "text-red-500" : "text-slate-900"
                     }`}>
-              {item.score}
+              {item.riskScore}
              </div>
                 </div>
 
@@ -101,25 +120,31 @@ const analyses = [
   <div className="flex items-start gap-3">
     {/* Icon */}
     <div
-      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${item.color}`}
+      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${style.bg} ${style.color}`}
     >
-      <item.icon size={24} />
+      <Icon size={25}/>
     </div>
 
     {/* Title and Category */}
     <div className="min-w-0 flex-1">
       <p className="font-semibold text-base text-slate-900">
-        {item.title}
+        {item.content.length > 35
+          ? item.content.slice(0, 35) + "..."
+           : item.content}
       </p>
 
       <p className="text-sm text-slate-500">
-        {item.category}
+        {item.contentType}
       </p>
 
       {/* Date */}
       <div className="mt-2 flex items-center gap-2 text-sm text-slate-400">
         <Calendar size={16} />
-        <span>{item.date}</span>
+        <span>{new Date(item.createdAt).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+        })}</span>
       </div>
 
       {/* Risk Badge + Score */}
@@ -127,14 +152,14 @@ const analyses = [
         {/* Risk */}
         <span
           className={`rounded-xl px-4 py-2 text-sm font-semibold ${
-            item.risk === "High"
+            item.riskLevel === "High"
               ? "bg-red-100 text-red-500"
               : item.risk === "Medium"
               ? "bg-yellow-100 text-yellow-600"
               : "bg-green-100 text-green-600"
           }`}
         >
-          {item.risk}
+          {item.riskLevel}
         </span>
 
         {/* Score */}
@@ -143,16 +168,16 @@ const analyses = [
             item.risk === "High" ? "text-red-500" : "text-slate-900"
           }`}
         >
-          {item.score}
+          {item.riskScore}
         </span>
       </div>
     </div>
   </div>
 </div>
             </div>
-        ))
+        )})
     }
-</div>
+  </div>
     </div>
   )
 }

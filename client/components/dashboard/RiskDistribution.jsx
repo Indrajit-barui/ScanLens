@@ -1,33 +1,26 @@
 import {ResponsiveContainer,PieChart ,Pie,Tooltip,Legend,Cell} from "recharts"
 
 
-const RiskDistribution = () => {
+const RiskDistribution = ({stats}) => {
 const riskData = [
   {
     name: "High Risk",
-    value: 9,
+    value: stats.highRisk,
     color: "#ef4444",
   },
   {
     name: "Medium Risk",
-    value: 7,
+    value: stats.mediumRisk,
     color: "#eab308",
   },
   {
     name: "Low Risk",
-    value: 6,
+    value: stats.lowRisk,
     color: "#3b82f6",
-  },
-  {
-    name: "Safe",
-    value: 2,
-    color: "#10b981",
   },
 ];
 
-const totalAnalyses=riskData.reduce((curr,acc)=>{
-  return curr+acc.value
-},0)
+const totalAnalyses=stats.totalAnalyses
   return (
  <div className="relative h-[300px] w-full [&_*:focus]:outline-none">
       <ResponsiveContainer width="100%" height="100%">
