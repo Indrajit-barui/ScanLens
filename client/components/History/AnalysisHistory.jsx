@@ -43,7 +43,10 @@ const typeStyles = {
 const [history, setHistory] = useState([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState("");
-
+// Filter states
+const [selectedType, setSelectedType] = useState("all");
+const [selectedRisk, setSelectedRisk] = useState("all");
+const [searchQuery, setSearchQuery] = useState("");
 useEffect(() => {
   const fetchHistory = async () => {
     try {
@@ -93,11 +96,26 @@ const handleDelete = async (id) => {
   }
 };
 const [currentPage,setCurrentPage]=useState(1);
+const filteredHistory = history.filter((item) => {
+  const matchesType =
+    selectedType === "all" ||
+    item.contentType === selectedType;
+
+  const matchesRisk =
+    selectedRisk === "all" ||
+    item.riskLevel === selectedRisk;
+
+  const matchesSearch =
+    item.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.contentType.toLowerCase().includes(searchQuery.toLowerCase());
+
+  return matchesType && matchesRisk && matchesSearch;
+});
 
 const itemsPerPage=10;
-const totalpage = Math.ceil(history.length / itemsPerPage);
-const startIndex=(currentPage - 1 ) * itemsPerPage;
-const currentData = history.slice(
+const totalpage = Math.ceil(filteredHistory.length / itemsPerPage);
+const startIndex = (currentPage - 1) * itemsPerPage;
+const currentData = filteredHistory.slice(
   startIndex,
   startIndex + itemsPerPage
 );
@@ -114,20 +132,24 @@ const currentData = history.slice(
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
             <div className="relative w-full">
   <select
+
+    value={selectedType}
+    onChange={(e) => {
+    setSelectedType(e.target.value);
+    setCurrentPage(1);
+    }}
     className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-11 text-base text-gray-700 outline-none transition hover:border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
   >
-    <option value="all">All Types</option>
-    <option value="job">Job Offer</option>
-    <option value="banking">Banking</option>
-    <option value="investment">Investment</option>
-    <option value="shopping">Shopping</option>
-    <option value="otp">OTP</option>
-    <option value="romance">Romance</option>
-    <option value="impersonation">Impersonation</option>
-    <option value="lottery">Lottery/Prize</option>
-    <option value="email">Email</option>
-    <option value="link">Link/Website</option>
-    <option value="other">Other</option>
+<option value="all">All Types</option>
+<option value="Job Offer">Job Offer</option>
+<option value="Text Message">Text Message</option>
+<option value="Banking">Banking</option>
+<option value="Investment">Investment</option>
+<option value="Shopping">Shopping</option>
+<option value="Email">Email</option>
+<option value="Link/Website">Link/Website</option>
+<option value="Social Media">Social Media</option>
+<option value="Other">Other</option>
   </select>
 
   <ChevronDown
@@ -136,14 +158,19 @@ const currentData = history.slice(
   />
            </div>
            <div className="relative w-full">
-  <select
-    className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-11 text-base text-gray-700 outline-none transition hover:border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-  >
-    <option value="all">All Risk Levels</option>
-    <option value="high">High</option>
-    <option value="medium">Medium</option>
-    <option value="low">Low</option>
-  </select>
+<select
+  value={selectedRisk}
+  onChange={(e) => {
+    setSelectedRisk(e.target.value);
+    setCurrentPage(1);
+  }}
+  className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-white px-4 py-3 pr-11 text-base text-gray-700 outline-none transition hover:border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+>
+  <option value="all">All Risk Levels</option>
+  <option value="High">High</option>
+  <option value="Medium">Medium</option>
+  <option value="Low">Low</option>
+</select>
 
   <ChevronDown
     size={18}
@@ -160,8 +187,13 @@ const currentData = history.slice(
          />
 
          <input
-                type="text"
-                placeholder="Search your analyses..."
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1);
+               }}
+  placeholder="Search your analyses..."
                  className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-base text-gray-700 outline-none transition placeholder:text-gray-400 hover:border-indigo-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
          />
 </div>
@@ -190,7 +222,20 @@ const currentData = history.slice(
 
  {/* actual history */}
      <div  >
-        {currentData.map((data)=>{
+      {filteredHistory.length === 0 && !loading && !error ? (
+    <div className="flex flex-col items-center justify-center py-16 text-center">
+      <FileText size={45} className="mb-3 text-gray-300" />
+
+      <h3 className="text-lg font-semibold text-gray-700">
+        No matching analyses found
+      </h3>
+
+      <p className="mt-1 text-sm text-gray-400">
+        Try changing your filters or search keywords.
+      </p>
+    </div>
+  ) :(
+        currentData.map((data)=>{
           const style = typeStyles[data.contentType] || {
             icon: FileText,
   bg: "bg-gray-100",
@@ -353,7 +398,7 @@ className="group flex h-12 w-12 cursor-pointer items-center justify-center round
 </div>
             </div>
            )
-})}
+        }))}
      </div>
 {loading && (
   <p className="py-10 text-center text-gray-500">
