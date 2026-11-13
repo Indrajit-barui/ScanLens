@@ -204,4 +204,3 @@ Indrajit Barui
 
 ## 📄 License
 
-Choose a license before publishing the project for reuse by others.

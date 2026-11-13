@@ -90,10 +90,11 @@ const getAnalysisHistory=async (req,res) => {
       user:req.userId,
     }).sort({createdAt:-1})
 
-    return res.status(200).json({
-      success:true,
-      count:history.length.history
-    })
+return res.status(200).json({
+  success: true,
+  count: history.length,
+  history: history
+});
   } catch (error) {
     console.log("history error: ",error)
     return res.status.json({
@@ -103,4 +104,34 @@ const getAnalysisHistory=async (req,res) => {
   }
 }
 
-module.exports = { analyzeMessage ,getAnalysisHistory};
+const deleteAnalysis = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedAnalysis = await Analysis.findOneAndDelete({
+      _id: id,
+      user: req.userId,
+    });
+
+    if (!deletedAnalysis) {
+      return res.status(404).json({
+        success: false,
+        message: "Analysis not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Analysis deleted successfully.",
+    });
+  } catch (error) {
+    console.log("Delete Analysis Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete analysis.",
+    });
+  }
+};
+
+module.exports = { analyzeMessage ,getAnalysisHistory,deleteAnalysis};

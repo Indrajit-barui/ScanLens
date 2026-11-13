@@ -6,6 +6,7 @@ const authRoutes=require("./routes/authRoutes")
 const userRoutes=require("./routes/userRoutes")
 const quizRoutes=require("./routes/quizRoutes")
 const analysisRoutes=require("./routes/analysisRoutes")
+const dashboardRoute=require("./routes/DashboardRoutes")
 dotenv.config();
 
 const app=express();
@@ -18,6 +19,7 @@ app.use("/auth",authRoutes);
 app.use("/user",userRoutes);
 app.use("/quiz",quizRoutes);
 app.use("/analysis",analysisRoutes)
+app.use("/dashboard",dashboardRoute)
 // start server
 const startServer=async () =>{
     try {
