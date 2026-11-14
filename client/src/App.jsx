@@ -12,6 +12,7 @@ import ScamAwareness from "../pages/ScamAwareness";
 import Settings from "../pages/Settings";
 import ScamDetailsPage from "../components/Learn about Section/ScamDetailsPage";
 import ProtectedRoute from "../components/ProtectedRoute";
+import HelpSupport from "../pages/HelpSupport";
 const App = () => {
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ const App = () => {
     <Route path="/learn/:category" element={<ScamDetailsPage />} />
     <Route path="/ScamAwareness" element={<ScamAwareness />} />
     <Route path="/settings" element={<Settings />} />
+    <Route path="/helpSupport" element={<HelpSupport />} />
   </Route>
 </Route>
 </Routes>

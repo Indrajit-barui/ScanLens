@@ -9,12 +9,12 @@ import {
   LogOut,
 
 } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 const ProfieDropdown = () => {
     const [isOpen,setIsopen]=useState(true)
     const [darkMode,setDarkMode]=useState(false)
     const dropdownRef = useRef(null);
-
+   const navigate=useNavigate()
   useEffect(() => {
     const handleClickOutside = (event) => {
       if ( dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -28,6 +28,11 @@ const ProfieDropdown = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleHelpSupport=()=>{
+    setIsopen(false)
+     navigate("/helpSupport")
+  }
   return (
     <div ref={dropdownRef}>
 
@@ -100,7 +105,9 @@ const ProfieDropdown = () => {
 </button>
 
 {/* Help and Support */}
-        <button className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-slate-600 hover:bg-slate-100">
+        <button 
+         onClick={handleHelpSupport}
+        className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-slate-600 hover:bg-slate-100">
          <CircleHelp size={20} />
           <span>Help & Support</span>
         </button>

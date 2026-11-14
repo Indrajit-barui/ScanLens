@@ -2,7 +2,7 @@ import WelcomeSection from "../components/dashboard/WelcomeSection";
 import StatsCards from "../components/dashboard/StatsCards";
 import RiskDistribution from "../components/dashboard/RiskDistribution";
 import RecentAnalyses from "../components/dashboard/RecentAnalyses";
-
+ 
 import { useState, useEffect } from "react";
 import { getDashboardStats } from "@/api/dashboardApi";
 // import EmptyStateDashboard from "../components/dashboard/EmptyStateDashboard";
