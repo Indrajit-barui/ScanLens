@@ -1,138 +1,153 @@
-import { useState } from "react"
-import {Mail,MessageSquare,BriefcaseBusiness,UserRound,Link,FileText} from "lucide-react"
-import MessageBox from "./MessageBox"
-import AnalyzeButton from "./AnalyzeButton"
-import TryExample from "./TryExample"
-import { analyzeMessage } from "@/api/analysisApi"
-import AnalysisResult from "./AnalysisResult/AnalysisResult"
+import { useState } from "react";
+import {
+  Mail,
+  MessageSquare,
+  BriefcaseBusiness,
+  UserRound,
+  Link,
+  FileText,
+} from "lucide-react";
+
+import MessageBox from "./MessageBox";
+import AnalyzeButton from "./AnalyzeButton";
+import TryExample from "./TryExample";
+import { analyzeMessage } from "@/api/analysisApi";
+import AnalysisResult from "./AnalysisResult/AnalysisResult";
+
 const MessageAnalyzer = () => {
   const [analysis, setAnalysis] = useState(null);
-const [loading, setLoading] = useState(false);
-const [error, setError] = useState("");
-const handleAnalyze = async () => {
-  if (!message.trim()) {
-    setError("Please enter a message to analyze.");
-    return;
-  }
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  try {
-    setLoading(true);
-    setError("");
-    setAnalysis(null);
+  const [selectedCategory, setSelectCategory] = useState("Text Message");
+  const [message, setMessage] = useState("");
 
-    const data = await analyzeMessage(message, selectedCategory);
+  const handleAnalyze = async () => {
+    if (!message.trim()) {
+      setError("Please enter a message to analyze.");
+      return;
+    }
 
-    setAnalysis(data.analysis);
+    try {
+      setLoading(true);
+      setError("");
+      setAnalysis(null);
 
-  } catch (error) {
-    console.error("Analysis failed:", error.message);
-    setError(error.message || "Something went wrong.");
+      const data = await analyzeMessage(message, selectedCategory);
 
-  } finally {
-    setLoading(false);
-  }
-};
-const categories = [
-  { name: "Text Message", icon: MessageSquare },
-  { name: "Email", icon: Mail },
-  { name: "Job Offer", icon: BriefcaseBusiness },
-  { name: "Social Media", icon: UserRound },
-  { name: "Link/Website", icon: Link },
-  { name: "Other", icon: FileText },
-];
-  const[selectedCategory,setSelectCategory]=useState("Text Message")
-  const [message,setMessage]=useState("");
+      setAnalysis(data.analysis);
+    } catch (error) {
+      console.error("Analysis failed:", error.message);
+      setError(error.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const categories = [
+    { name: "Text Message", icon: MessageSquare },
+    { name: "Email", icon: Mail },
+    { name: "Job Offer", icon: BriefcaseBusiness },
+    { name: "Social Media", icon: UserRound },
+    { name: "Link/Website", icon: Link },
+    { name: "Other", icon: FileText },
+  ];
+
   return (
-    <div>
-        {/* header */}
-        <div>
-          <p className="text-2xl md:text-4xl font-bold">Analyze Suspicious Content</p>
-          <p className="text-gray-400">Paste any suspicious message,email,or text to get AI-powered ananysis</p>
+    <div className="space-y-5">
+
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold text-white md:text-4xl">
+          Analyze Suspicious Content
+        </h1>
+
+        <p className="mt-2 text-slate-400">
+          Paste any suspicious message, email, or text to get AI-powered analysis.
+        </p>
+      </div>
+
+      {/* Content Categories */}
+      <div className="flex flex-wrap gap-3">
+        {categories.map((category) => {
+          const Icon = category.icon;
+
+          return (
+            <button
+              key={category.name}
+              onClick={() => setSelectCategory(category.name)}
+              className={`flex items-center gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition ${
+                selectedCategory === category.name
+                  ? "border-rose-500/50 bg-rose-500/15 text-rose-400"
+                  : "border-[#263653] bg-[#111827] text-slate-300 hover:border-slate-500 hover:bg-[#172238]"
+              }`}
+            >
+              <Icon size={20} />
+              {category.name}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Message Box */}
+      <MessageBox
+        selectedCategory={selectedCategory}
+        message={message}
+        setMessage={setMessage}
+      />
+
+      {/* Example Buttons */}
+      <div className="flex flex-wrap items-center gap-3">
+        <p className="font-semibold text-slate-300">
+          Example:
+        </p>
+
+        <div className="flex flex-wrap gap-3">
+          {[
+            "Job offer",
+            "Bank SMS",
+            "Lottery message",
+            "Investment offer",
+            "Fake Delivery",
+          ].map((item) => (
+            <button
+              key={item}
+              className="rounded-xl border border-[#263653] bg-[#111827] px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-rose-500/40 hover:bg-rose-500/10 hover:text-rose-400"
+            >
+              {item}
+            </button>
+          ))}
         </div>
+      </div>
 
-        <div className="mt-5 flex flex-wrap gap-3">
-             
-             { categories.map((category)=>{
-                const Icon=category.icon;
-                return (
-                <button
-                key={category.name}
-                onClick={()=>setSelectCategory(category.name)}
-                className={`flex gap-2 rounded-xl border px-4 py-3 text-sm font-medium transition ${
-        selectedCategory === category.name
-          ? "border-red-500 bg-red-50 text-red-500"
-          : "border-transparent bg-gray-100 text-gray-700 hover:bg-gray-200"
-      }`}
-                >
-                  <Icon size={20}/>
-                 {category.name}
-                 
-                </button>
-                )
+      {/* Analyze Button */}
+      <div>
+        <AnalyzeButton
+          onClick={handleAnalyze}
+          loading={loading}
+        />
+      </div>
 
-              })
-             }
+      {/* Try Example */}
+      <div className="mt-5">
+        <TryExample onSelectExample={setMessage} />
+      </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="mt-5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400">
+          {error}
         </div>
+      )}
 
-        <div className="mt-3">
-             <MessageBox selectedCategory={selectedCategory}
-             
-             message={message}
-             setMessage={setMessage}
-             />
+      {/* Analysis Results */}
+      {analysis && (
+        <div className="mt-8">
+          <AnalysisResult analysis={analysis} />
         </div>
-{/* Example */}
-<div className="mt-5 flex flex-wrap items-center gap-3">
-  <p className="font-semibold text-slate-900">Example:</p>
-
-  <div className="flex flex-wrap gap-3">
-    {[
-      "Job offer",
-      "Bank SMS",
-      "Lottery message",
-      "Investment offer",
-      "Fake Delivery",
-    ].map((item) => (
-      <button
-        key={item}
-        className="rounded-xl bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-500"
-      >
-        {item}
-      </button>
-    ))}
-  </div>
-</div>
-
-{/* Analyze button */}
-<div>
-<AnalyzeButton
- onClick={handleAnalyze}
- loading={loading}
- />
-</div>
-
-{/* try example */}
-<div className="mt-3">
-  <TryExample 
-   onSelectExample={setMessage}
-  />
-</div>
-
-{/* Error Message */}
-{error && (
-  <div className="mt-5 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600">
-    {error}
-  </div>
-)}
-
-{/* Analysis Results */}
-{analysis && (
-  <div className="mt-8">
-    <AnalysisResult analysis={analysis} />
-  </div>
-)}
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default MessageAnalyzer
+export default MessageAnalyzer;

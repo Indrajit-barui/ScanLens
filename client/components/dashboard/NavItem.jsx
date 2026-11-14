@@ -7,11 +7,11 @@ function NavItem({ icon, text, active, onClick }) {
         p-3
         rounded-lg
         cursor-pointer
-        bg-gray-50
+        transition-colors duration-200
         ${
           active
-            ? "bg-red-50 text-red-600"
-            : "text-gray-600 hover:bg-gray-100"
+            ? "bg-rose-500/15 text-rose-400"
+            : "bg-transparent text-slate-300 hover:bg-slate-800 hover:text-white"
         }
       `}
     >
@@ -21,7 +21,7 @@ function NavItem({ icon, text, active, onClick }) {
         {text}
       </span>
     </div>
-  )
+  );
 }
 
 export default NavItem;

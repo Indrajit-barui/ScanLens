@@ -1,8 +1,6 @@
-
 import { X } from "lucide-react";
-const MessageBox = ({ selectedCategory,message,setMessage }) => {
 
-
+const MessageBox = ({ selectedCategory, message, setMessage }) => {
   const placeholders = {
     "Text Message": "Paste the suspicious message here...",
     Email: "Paste the suspicious email here...",
@@ -22,20 +20,22 @@ const MessageBox = ({ selectedCategory,message,setMessage }) => {
           placeholders[selectedCategory] ||
           "Paste suspicious content here..."
         }
-        className="h-40 w-full resize-none rounded-2xl border border-slate-200 bg-white px-5 py-5 pb-12 text-base text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-red-400 focus:ring-2 focus:ring-red-100 md:h-40"
+        className="h-40 w-full resize-none rounded-2xl border border-[#263653] bg-[#111827] px-5 py-5 pb-12 text-base text-white outline-none transition placeholder:text-slate-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 md:h-40"
       />
-{/* Clear Button */}
-  {message && (
-    <button
-      type="button"
-      onClick={() => setMessage("")}
-      className="absolute right-5 top-3 flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-medium text-slate-500 transition hover:bg-red-50 hover:text-red-500"
-    >
-      <X size={16} />
-      Clear
-    </button>
-  )}
-      {/* Character counter */}
+
+      {/* Clear Button */}
+      {message && (
+        <button
+          type="button"
+          onClick={() => setMessage("")}
+          className="absolute right-5 top-3 flex items-center gap-1 rounded-lg px-2 py-1 text-sm font-medium text-slate-400 transition hover:bg-rose-500/10 hover:text-rose-400"
+        >
+          <X size={16} />
+          Clear
+        </button>
+      )}
+
+      {/* Character Counter */}
       <p className="absolute bottom-4 right-5 text-sm text-slate-400">
         {message.length}/5000 characters
       </p>

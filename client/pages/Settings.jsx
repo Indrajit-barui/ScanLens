@@ -8,7 +8,7 @@ const Settings = () => {
 
       {/* header */}
       <div>
-        <p className="text-2xl font-bold">Settings</p>
+        <p className="text-2xl font-bold text-white">Settings</p>
         <p className="text-gray-400">Manage your account and applications settings</p>
       </div>
 

@@ -5,7 +5,7 @@ const WelcomeSection = () => {
     <div>
             {/* Welcome Section */}
       <section >
-        <h1 className="text-3xl font-bold text-slate-900">
+        <h1 className="text-3xl font-bold text-white">
           Welcome back, Indrajit 👋
         </h1>
 

@@ -4,24 +4,24 @@ const RiskAssessment = ({ riskLevel, riskScore }) => {
   const getRiskColor = () => {
     if (riskLevel === "High") {
       return {
-        text: "text-red-600",
-        badge: "bg-red-600",
-        stroke: "#dc2626",
+        text: "text-red-400",
+        badge: "bg-red-500",
+        stroke: "#ef4444",
       };
     }
 
     if (riskLevel === "Medium") {
       return {
-        text: "text-amber-600",
+        text: "text-amber-400",
         badge: "bg-amber-500",
         stroke: "#f59e0b",
       };
     }
 
     return {
-      text: "text-green-600",
-      badge: "bg-green-600",
-      stroke: "#16a34a",
+      text: "text-green-400",
+      badge: "bg-green-500",
+      stroke: "#22c55e",
     };
   };
 
@@ -32,19 +32,19 @@ const RiskAssessment = ({ riskLevel, riskScore }) => {
   const progress = (riskScore / 100) * circumference;
 
   return (
-    <div className="w-full rounded-2xl border border-red-100 bg-gradient-to-r from-red-50 to-rose-50 p-6">
+    <div className="w-full rounded-2xl border border-red-500/20 bg-gradient-to-r from-[#291A26] to-[#211A2C] p-6">
 
       <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
 
         {/* Risk Information */}
         <div className="flex items-start gap-4">
 
-          <div className="rounded-xl bg-red-100 p-3">
-            <ShieldAlert className="h-7 w-7 text-red-600" />
+          <div className="rounded-xl bg-red-500/15 p-3">
+            <ShieldAlert className="h-7 w-7 text-red-400" />
           </div>
 
           <div>
-            <h3 className="text-lg font-bold text-gray-900">
+            <h3 className="text-lg font-bold text-white">
               Risk Assessment
             </h3>
 
@@ -54,7 +54,7 @@ const RiskAssessment = ({ riskLevel, riskScore }) => {
               {riskLevel} Risk
             </span>
 
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-slate-400">
               {riskLevel === "High"
                 ? "This message has strong indicators of a scam."
                 : riskLevel === "Medium"
@@ -78,7 +78,7 @@ const RiskAssessment = ({ riskLevel, riskScore }) => {
               <path
                 d="M 20 100 A 80 80 0 0 1 180 100"
                 fill="none"
-                stroke="#e5e7eb"
+                stroke="#334155"
                 strokeWidth="14"
                 strokeLinecap="round"
               />
@@ -96,15 +96,17 @@ const RiskAssessment = ({ riskLevel, riskScore }) => {
 
             {/* Score */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center">
-              <p className="text-3xl font-bold text-gray-900">
+              <p className="text-3xl font-bold text-white">
                 {riskScore}
-                <span className="text-lg font-semibold">/100</span>
+                <span className="text-lg font-semibold text-slate-400">
+                  /100
+                </span>
               </p>
             </div>
 
           </div>
 
-          <p className="mt-1 text-sm font-medium text-gray-600">
+          <p className="mt-1 text-sm font-medium text-slate-400">
             Risk Score
           </p>
 

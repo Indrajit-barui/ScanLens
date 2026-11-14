@@ -7,7 +7,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-const TryExample = ({onSelectExample}) => {
+const TryExample = ({ onSelectExample }) => {
   const examples = [
     {
       id: 1,
@@ -17,12 +17,12 @@ const TryExample = ({onSelectExample}) => {
       message:
         "“Congratulations! You have been selected for a work-from-home job. Pay ₹1,999 as a registration fee to start.”",
       icon: BriefcaseMedical,
-      iconColor: "text-red-500",
-      iconBg: "bg-red-100",
-      cardBg: "bg-rose-50",
-      messageBg: "bg-rose-100/70",
-      buttonBg: "bg-rose-100",
-      buttonColor: "text-red-600",
+      iconColor: "text-red-400",
+      iconBg: "bg-red-500/15",
+      cardBg: "bg-rose-500/5",
+      messageBg: "bg-rose-500/10",
+      buttonBg: "bg-rose-500/15",
+      buttonColor: "text-rose-400",
     },
     {
       id: 2,
@@ -32,12 +32,12 @@ const TryExample = ({onSelectExample}) => {
       message:
         "“Your bank account will be blocked today. Click the link below to complete your KYC and keep your account active.”",
       icon: Landmark,
-      iconColor: "text-blue-600",
-      iconBg: "bg-blue-100",
-      cardBg: "bg-blue-50",
-      messageBg: "bg-blue-100/70",
-      buttonBg: "bg-blue-100",
-      buttonColor: "text-blue-600",
+      iconColor: "text-blue-400",
+      iconBg: "bg-blue-500/15",
+      cardBg: "bg-blue-500/5",
+      messageBg: "bg-blue-500/10",
+      buttonBg: "bg-blue-500/15",
+      buttonColor: "text-blue-400",
     },
     {
       id: 3,
@@ -47,17 +47,18 @@ const TryExample = ({onSelectExample}) => {
       message:
         "“Invest ₹5,000 today and get ₹50,000 in 30 days. Limited-time offer. Don't miss this opportunity!”",
       icon: ChartNoAxesCombined,
-      iconColor: "text-amber-500",
-      iconBg: "bg-amber-100",
-      cardBg: "bg-amber-50",
-      messageBg: "bg-amber-100/70",
-      buttonBg: "bg-amber-100",
-      buttonColor: "text-amber-600",
+      iconColor: "text-amber-400",
+      iconBg: "bg-amber-500/15",
+      cardBg: "bg-amber-500/5",
+      messageBg: "bg-amber-500/10",
+      buttonBg: "bg-amber-500/15",
+      buttonColor: "text-amber-400",
     },
   ];
 
   return (
-    <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-[#263653] bg-[#111827] p-5 shadow-sm">
+
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
@@ -67,18 +68,18 @@ const TryExample = ({onSelectExample}) => {
           />
 
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-white">
               Try An Example
             </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-slate-400">
               Click on any example below to see how it works. The example
               will be automatically added to the input box.
             </p>
           </div>
         </div>
 
-        <button className="flex shrink-0 items-center gap-1 text-sm font-semibold text-red-600 hover:text-red-700">
+        <button className="flex shrink-0 items-center gap-1 text-sm font-semibold text-rose-400 hover:text-rose-300">
           View More
           <ArrowRight size={18} />
         </button>
@@ -92,8 +93,9 @@ const TryExample = ({onSelectExample}) => {
           return (
             <div
               key={item.id}
-              className={`rounded-2xl border border-gray-100 p-4 ${item.cardBg}`}
+              className={`rounded-2xl border border-[#263653] p-4 ${item.cardBg}`}
             >
+
               {/* Icon and Description */}
               <div className="flex items-start gap-3">
                 <div
@@ -107,11 +109,11 @@ const TryExample = ({onSelectExample}) => {
                 </div>
 
                 <div className="min-w-0">
-                  <h3 className="font-semibold text-gray-900">
+                  <h3 className="font-semibold text-white">
                     {item.title}
                   </h3>
 
-                  <p className="mt-1 text-sm leading-5 text-gray-600">
+                  <p className="mt-1 text-sm leading-5 text-slate-400">
                     {item.description}
                   </p>
                 </div>
@@ -119,19 +121,20 @@ const TryExample = ({onSelectExample}) => {
 
               {/* Example Message */}
               <div
-                className={`mt-3 rounded-xl p-3 text-sm leading-5 text-gray-700 ${item.messageBg}`}
+                className={`mt-3 rounded-xl border border-white/5 p-3 text-sm leading-5 text-slate-300 ${item.messageBg}`}
               >
                 {item.message}
               </div>
 
               {/* Try Example Button */}
               <button
-              onClick={()=>onSelectExample(item.message)}
-                className={`mt-2 flex w-full items-center justify-center gap-2 rounded-xl py-3 font-semibold transition-opacity hover:opacity-80 ${item.buttonBg} ${item.buttonColor} cursor-pointer`}
+                onClick={() => onSelectExample(item.message)}
+                className={`mt-3 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl py-3 font-semibold transition hover:brightness-125 ${item.buttonBg} ${item.buttonColor}`}
               >
                 <FileText size={20} />
                 Try Example
               </button>
+
             </div>
           );
         })}

@@ -3,21 +3,25 @@ import Sidebar from "../dashboard/Sidebar";
 import Header from "../dashboard/Header";
 
 const DashboardLayout = () => {
-  return (
-    <div>
-      {/* Left side */}
-      <Sidebar />
+return (
+<div className="min-h-screen bg-[#0B1120]">
 
-      {/* Right side */}
-      <div className="min-h-screen lg:ml-[280px]">
-        <Header />
+  {/* Left Sidebar */}
+  <Sidebar />
 
-        <main className="px-6 pb-6 pt-24 sm:px-6">
-          <Outlet />
-        </main>
-      </div>
-    </div>
-  );
+  {/* Right Content */}
+  <div className="min-h-screen bg-[#0B1120] lg:ml-[280px]">
+
+    <Header />
+
+    <main className="min-h-screen bg-[#0B1120] px-6 pb-6 pt-24 sm:px-6">
+      <Outlet />
+    </main>
+
+  </div>
+</div>
+
+);
 };
 
 export default DashboardLayout;

@@ -1,116 +1,131 @@
-import { Lightbulb ,ArrowRight,ArrowLeft} from "lucide-react";
-
+import { Lightbulb, ArrowRight, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 
-const QuizQuestion = ({ question ,onNext,onPrev,currentQuestionIndex,totalQuestion,onFinish,onAnswerSelect,selectedAnswer}) => {
+const QuizQuestion = ({
+  question,
+  onNext,
+  onPrev,
+  currentQuestionIndex,
+  totalQuestion,
+  onFinish,
+  onAnswerSelect,
+  selectedAnswer,
+}) => {
+  const [showExplanation, setShowExplanation] = useState(false);
 
-    const[showExplanation,setShowExplanation]=useState(false)
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-5 mt-5">
-
-
+    <div className="mt-5 rounded-2xl border border-[#263653] bg-[#111827] p-5">
 
       {/* Question */}
-      <h3 className="mt-4 font-bold text-gray-900 ">
+      <h3 className="mt-4 font-bold text-white">
         {question.question}
       </h3>
 
-{/* Answer options */}
-<div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-  {question.options.map((option, index) => (
-<button
-  key={option}
-  onClick={() => {
+      {/* Answer Options */}
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {question.options.map((option, index) => (
+          <button
+            key={option}
+            type="button"
+            onClick={() => onAnswerSelect(index)}
+            className={`flex min-h-[50px] items-center gap-3 rounded-xl border px-4 py-3 text-left transition ${
+              selectedAnswer === index
+                ? "border-rose-500 bg-rose-500/15 text-rose-300"
+                : "border-[#263653] bg-[#172238] text-slate-300 hover:border-rose-500/50 hover:bg-rose-500/10"
+            }`}
+          >
+            {/* Radio Circle */}
+            <span
+              className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
+                selectedAnswer === index
+                  ? "border-rose-500"
+                  : "border-slate-500"
+              }`}
+            >
+              {selectedAnswer === index && (
+                <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />
+              )}
+            </span>
 
-   
-    onAnswerSelect(index)
-  }}
-className={`flex min-h-[50px] items-center gap-3 rounded-xl border px-4 py-3 text-left transition
-  ${
-    selectedAnswer === index
-      ? "border-red-400 bg-red-50 text-red-600"
-      : "border-gray-200 bg-white text-gray-700 hover:border-red-300 hover:bg-red-50"
-  }`}  
->
-  {/* Radio circle */}
-  <span
-    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2
-      ${
-        selectedAnswer === index
-          ? "border-red-500"
-          : "border-gray-300"
-      }`}
-  >
-    {selectedAnswer === index && (
-      <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-    )}
-  </span>
+            {/* Option Text */}
+            <span className="text-sm font-medium">
+              <span className="mr-1 font-bold">
+                {String.fromCharCode(65 + index)}.
+              </span>
+              {option}
+            </span>
+          </button>
+        ))}
+      </div>
 
-  {/* Option text */}
-  <span className="text-sm font-medium">
-    <span className="mr-1 font-bold">
-      {String.fromCharCode(65 + index)}.
-    </span>
-    {option}
-  </span>
-</button>
-  ))}
-</div>
+      {/* Explanation and Navigation */}
+      <div className="mt-5 flex flex-col justify-between gap-3 md:flex-row">
 
-{/* show Explanation */}
+        {/* Show Explanation */}
+        <div>
+          <button
+            type="button"
+            onClick={() => setShowExplanation((prev) => !prev)}
+            className="group inline-flex items-center gap-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-sm font-semibold text-amber-400 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-400 hover:bg-amber-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60 active:scale-95"
+          >
+            <Lightbulb size={18} />
+            {showExplanation ? "Hide Explanation" : "Show Explanation"}
+          </button>
+        </div>
 
-<div className="flex flex-col gap-2 md:flex-row justify-between mt-5">
-  <div>
-<button
-  onClick={() => setShowExplanation((prev) => !prev)}
-  className="group inline-flex items-center gap-2.5 rounded-xl border border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50 px-4 py-2.5 text-sm font-semibold text-amber-800 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-400 hover:from-amber-100 hover:to-yellow-100 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60 focus-visible:ring-offset-2 active:scale-95"
->
-  <Lightbulb size={18} className="text-amber-500" />
-  {showExplanation ? "Hide Explanation" : "Show Explanation"}
-</button>
-  </div>
+        {/* Navigation Buttons */}
+        <div className="flex flex-col items-center gap-2 sm:flex-row">
 
-<div className="flex flex-col md:flex-row gap-2 items-center">
-<button 
-onClick={()=>{
-  onPrev();
-}}
-className="group inline-flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-800 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 active:translate-y-0 active:scale-[0.98]">
-  <ArrowLeft size={18} className="transition-transform duration-300 group-hover:-translate-x-1" />
-  Previous
-</button>
-<button 
-onClick={()=>{
-  if (currentQuestionIndex===totalQuestion-1) {
-     onFinish()
-  }
-  else{
-onNext()
-  }
-  
-  
-  setShowExplanation(false)
-}}
-className="group inline-flex items-center gap-2 rounded-xl border-2 border-red-500 bg-white px-6 py-3 text-sm font-semibold text-red-600 transition-all duration-200 hover:bg-red-500 hover:text-white hover:shadow-lg hover:shadow-red-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 active:scale-[0.98]">
-  {currentQuestionIndex===totalQuestion-1 ?"Finish Quiz":"Next Question"}
-  <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
-</button>
-</div>
+          <button
+            type="button"
+            onClick={onPrev}
+            disabled={currentQuestionIndex === 0}
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
+          >
+            <ArrowLeft
+              size={18}
+              className="transition-transform duration-300 group-hover:-translate-x-1"
+            />
+            Previous
+          </button>
 
-</div>
+          <button
+            type="button"
+            onClick={() => {
+              if (currentQuestionIndex === totalQuestion - 1) {
+                onFinish();
+              } else {
+                onNext();
+              }
 
+              setShowExplanation(false);
+            }}
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-rose-600 px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-rose-700 hover:shadow-lg hover:shadow-rose-950/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 active:scale-[0.98] sm:w-auto"
+          >
+            {currentQuestionIndex === totalQuestion - 1
+              ? "Finish Quiz"
+              : "Next Question"}
 
-{showExplanation && (
-  <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
-    <h3 className="font-semibold text-amber-800">
-      💡 Why is this a scam?
-    </h3>
+            <ArrowRight
+              size={18}
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </button>
+        </div>
+      </div>
 
-    <p className="mt-2 text-sm leading-relaxed text-gray-700">
-      {question.explanation}
-    </p>
-  </div>
-)}
+      {/* Explanation */}
+      {showExplanation && (
+        <div className="mt-4 rounded-xl border border-amber-500/20 bg-amber-500/10 p-4">
+          <h3 className="font-semibold text-amber-400">
+            💡 Why is this a scam?
+          </h3>
+
+          <p className="mt-2 text-sm leading-relaxed text-slate-300">
+            {question.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

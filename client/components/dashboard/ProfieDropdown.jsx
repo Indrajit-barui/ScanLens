@@ -33,6 +33,17 @@ const ProfieDropdown = () => {
     setIsopen(false)
      navigate("/helpSupport")
   }
+
+  const handleLogout=()=>{
+    setIsopen(false)
+    localStorage.removeItem("token")
+    navigate("/login")
+  }
+
+  const handleAccountSetting=()=>{
+    setIsopen(false)
+    navigate("/settings")
+  }
   return (
     <div ref={dropdownRef}>
 
@@ -64,7 +75,9 @@ const ProfieDropdown = () => {
     </button>
 
 {/* Account Setting */}
-        <button className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-slate-600 hover:bg-slate-100">
+        <button 
+        onClick={handleAccountSetting}
+        className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-slate-600 hover:bg-slate-100">
       <Settings size={20} />
       <span>Account Settings</span>
         </button>
@@ -113,7 +126,9 @@ const ProfieDropdown = () => {
         </button>
 
 {/* Logout */}
-        <button className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-red-600 hover:bg-slate-100">
+        <button 
+         onClick={handleLogout}
+        className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-red-600 hover:bg-slate-100">
          <LogOut size={20} />
           <span>Logout</span>
         </button>

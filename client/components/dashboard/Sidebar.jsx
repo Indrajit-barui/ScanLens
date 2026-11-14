@@ -26,7 +26,7 @@ const Sidebar = () => {
 {!isOpen && (
   <button
     onClick={() => setIsOpen(true)}
-    className="fixed left-4 top-4 z-[60] rounded-lg bg-white p-2 shadow lg:hidden"
+    className="fixed left-4 top-4 z-[60] rounded-lg border border-[#263653] bg-[#111827] p-2 text-white shadow lg:hidden"
     aria-label="Open sidebar"
   >
     <Menu size={24} />
@@ -41,7 +41,7 @@ const Sidebar = () => {
   />
 )}
 <aside
-  className={`fixed left-0 top-0 z-50 flex h-screen w-[280px] flex-col border-r border-gray-200 bg-white py-4 transition-transform duration-300 ${
+  className={`fixed left-0 top-0 z-50 flex h-screen w-[280px] flex-col border-r border-[#263653] bg-[#111827] py-4 transition-transform duration-300 ${
     isOpen ? "translate-x-0" : "-translate-x-full"
   } lg:translate-x-0`}
 >
@@ -54,7 +54,7 @@ const Sidebar = () => {
       <Shield size={35} fill="white" strokeWidth={2.5} />
     </div>
 
-    <p className="text-2xl font-bold">
+    <p className="text-2xl font-bold text-white">
       Scam<span className="text-red-500">Lens</span>
     </p>
   </div>
@@ -62,7 +62,7 @@ const Sidebar = () => {
   {/* Close button: mobile only */}
   <button
     onClick={() => setIsOpen(false)}
-    className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
+    className="rounded-lg p-2 text-slate-300 hover:bg-slate-700 lg:hidden"
     aria-label="Close sidebar"
   >
     <X size={22} />
