@@ -40,6 +40,11 @@ const ProfieDropdown = () => {
     navigate("/login")
   }
 
+  const handleMyprofile=()=>{
+    setIsopen(false)
+    navigate("/My-profile")
+  }
+
   const handleAccountSetting=()=>{
     setIsopen(false)
     navigate("/settings")
@@ -69,7 +74,9 @@ const ProfieDropdown = () => {
     </div>
 
     {/* My Profile */}
-    <button className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-slate-600 hover:bg-slate-100">
+    <button 
+      onClick={handleMyprofile}
+    className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-slate-600 hover:bg-slate-100">
       <UserRound size={20} />
       <span>My Profile</span>
     </button>
