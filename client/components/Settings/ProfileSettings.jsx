@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 const ProfileSettings = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
+  const API_URL = import.meta.env.VITE_API_URL;
   // Fetch Profile
   useEffect(() => {
     const fetchProfile = async () => {
@@ -12,7 +12,7 @@ const ProfileSettings = () => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(
-          "http://localhost:5000/user/profile",
+          `${API_URL}/user/profile`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ const ProfileSettings = () => {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/user/profile",
+        `${API_URL}/user/profile`,
         {
           method: "PUT",
           headers: {

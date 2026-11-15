@@ -39,14 +39,14 @@ const Account = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+    const API_URL = import.meta.env.VITE_API_URL;
   // Update Email
   const handleUpdateEmail = async () => {
     try {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/user/update-email",
+        `${API_URL}/user/update-email`,
         {
           method: "PUT",
           headers: {
@@ -90,7 +90,7 @@ const Account = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/user/change-password",
+        `${API_URL}/user/change-password`,
         {
           method: "PUT",
           headers: {
@@ -134,7 +134,7 @@ const Account = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/user/delete-accouont",
+        `${API_URL}/user/delete-accouont`,
         {
           method: "DELETE",
           headers: {
