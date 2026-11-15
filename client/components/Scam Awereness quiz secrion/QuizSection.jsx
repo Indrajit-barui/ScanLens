@@ -15,6 +15,7 @@ const [error, setError] = useState("");
 const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 const [isQuizFinished, setIsQuizFinished] = useState(false);
 const [quizResult, setQuizResult] = useState(null);
+const API_URL = import.meta.env.VITE_API_URL;
 
 useEffect(() => {
 if (!selectedCategory) return;
@@ -25,7 +26,7 @@ const fetchQuestions = async () => {
     setError("");
 
     const response = await fetch(
-      `http://localhost:5000/quiz/${selectedCategory}`
+      `${API_URL}/quiz/${selectedCategory}`
     );
 
     const data = await response.json();
@@ -59,7 +60,7 @@ questions.length > 0
 
 const handleSubmitQuiz = async () => {
 try {
-const response = await fetch("http://localhost:5000/quiz/submit", {
+const response = await fetch(`${API_URL}/quiz/submit`, {
 method: "POST",
 headers: {
   "Content-Type": "application/json",

@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 const QuizProgress = ({ currentQuestion, totalQuestions }) => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
-
+   const API_URL = import.meta.env.VITE_API_URL;
   const progress =
     totalQuestions > 0
       ? Math.min((currentQuestion / totalQuestions) * 100, 100)
@@ -18,7 +18,7 @@ const QuizProgress = ({ currentQuestion, totalQuestions }) => {
     const fetchQuizHistory = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/quiz/history",
+          `${API_URL}/quiz/history`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
