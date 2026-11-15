@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import NavItem from "./Navitem";
+import NavItem from "./NavItem";
 import UpgradeCard from "./UpgradeCard";
 
 

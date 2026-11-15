@@ -1,27 +1,25 @@
-const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const analyzeMessage = async (content, contentType) => {
-  const token = localStorage.getItem("token");
+const token = localStorage.getItem("token");
 
-  const response = await fetch(`${API_URL}/analysis/analyze`, {
-    method: "POST",
+const response = await fetch("${API_URL}/analysis/analyze", {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+Authorization: "Bearer ${token}",
+},
+body: JSON.stringify({
+content,
+contentType,
+}),
+});
 
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+const data = await response.json();
 
-    body: JSON.stringify({
-      content,
-      contentType,
-    }),
-  });
+if (!response.ok) {
+throw new Error(data.message || "Analysis failed");
+}
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Analysis failed");
-  }
-
-  return data;
+return data;
 };
