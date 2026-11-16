@@ -5,7 +5,7 @@ import RecentAnalyses from "../components/dashboard/RecentAnalyses";
 
 import { useState, useEffect } from "react";
 import { getDashboardStats } from "@/api/dashboardApi";
-import EmptyDashboard from "../components/dashboard/EmptyStateDashboard";
+import EmptyStateDashboard from "../components/EmptyDashboard/EmptyStateDashboard";
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
@@ -52,7 +52,7 @@ const Dashboard = () => {
           {error}
         </div>
       ) : stats.totalAnalyses === 0 ? (
-        <EmptyDashboard />
+        <EmptyStateDashboard />
       ) : (
         <>
           <WelcomeSection />

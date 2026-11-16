@@ -84,8 +84,8 @@ const ScamDetails = ({ scam }) => {
           </div>
 
           <div className="flex flex-col gap-1">
-            <p className="text-xl font-bold text-white">{scam.title}</p>
-            <p className="text-sm text-slate-300">{scam.description}</p>
+            <p className="text-xl font-bold text-black">{scam.title}</p>
+            <p className="text-sm text-black font-semibold">{scam.description}</p>
           </div>
         </div>
 
