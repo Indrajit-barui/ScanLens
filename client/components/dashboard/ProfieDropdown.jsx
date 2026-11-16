@@ -15,6 +15,8 @@ const ProfieDropdown = () => {
     const [darkMode,setDarkMode]=useState(false)
     const dropdownRef = useRef(null);
    const navigate=useNavigate()
+   const [user, setUser] = useState(null);
+   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if ( dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -23,6 +25,8 @@ const ProfieDropdown = () => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
+    
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -49,6 +53,37 @@ const ProfieDropdown = () => {
     setIsopen(false)
     navigate("/settings")
   }
+
+  useEffect(() => {
+  const fetchProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/user/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch profile");
+      }
+
+      const data = await response.json();
+
+      setUser(data.user);
+    } catch (error) {
+      console.error("Profile error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProfile();
+}, []);
   return (
     <div ref={dropdownRef}>
 
@@ -64,13 +99,14 @@ const ProfieDropdown = () => {
       />
 
       <div>
-        <h3 className="font-semibold text-slate-900">
-          Indrajit
-        </h3>
-        <p className="text-sm text-slate-500">
-          indrajit@example.com
-        </p>
-      </div>
+       <h3 className="font-semibold text-slate-900">
+        {loading ? "Loading..." : user?.name || "User"}
+       </h3>
+
+  <p className="text-sm text-slate-500">
+    {user?.email || ""}
+  </p>
+       </div>
     </div>
 
     {/* My Profile */}
